@@ -1,0 +1,17 @@
+<div class="border-b border-border">
+  <button
+    type="button"
+    class="flex min-h-11 w-full touch-manipulation items-center justify-between gap-4 py-4 text-left"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="contentId"
+    (click)="toggle()"
+  >
+    <span class="text-sm font-medium tracking-[0.02em] text-foreground">{{ title() }}</span>
+    <span class="text-lg text-muted-foreground" aria-hidden="true">{{ open() ? '−' : '+' }}</span>
+  </button>
+  @if (open()) {
+    <div [id]="contentId" class="pb-5 text-sm leading-relaxed text-muted-foreground">
+      <ng-content />
+    </div>
+  }
+</div>

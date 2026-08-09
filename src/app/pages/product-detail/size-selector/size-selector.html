@@ -1,0 +1,28 @@
+<div>
+  <div class="mb-3 flex items-center justify-between">
+    <span class="small-caps text-muted-foreground">Size</span>
+    @if (sizes().length > 1) {
+      <button
+        type="button"
+        class="small-caps text-accent underline decoration-1 underline-offset-4"
+        (click)="guideClicked.emit()"
+      >
+        Size Guide
+      </button>
+    }
+  </div>
+  <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Select a size">
+    @for (size of sizes(); track size) {
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="selected() === size"
+        class="small-caps flex h-11 min-w-11 touch-manipulation items-center justify-center rounded-md border px-3 transition-colors duration-150 ease-out"
+        [class]="selected() === size ? 'border-accent text-accent' : 'border-border text-foreground hover:border-border-hover'"
+        (click)="selected.set(size)"
+      >
+        {{ size }}
+      </button>
+    }
+  </div>
+</div>

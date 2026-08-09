@@ -1,0 +1,161 @@
+<header class="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:grid lg:grid-cols-3">
+    <button
+      type="button"
+      class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground lg:hidden"
+      [attr.aria-expanded]="mobileMenuOpen()"
+      aria-controls="mobile-nav"
+      aria-label="Toggle menu"
+      (click)="toggleMobileMenu()"
+    >
+      @if (mobileMenuOpen()) {
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+        </svg>
+      } @else {
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+        </svg>
+      }
+    </button>
+
+    <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
+      <a
+        routerLink="/products"
+        routerLinkActive="text-accent"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="small-caps text-foreground transition-colors duration-150 hover:text-accent"
+      >
+        Shop
+      </a>
+      <a
+        routerLink="/products"
+        [queryParams]="{ new: 'true' }"
+        class="small-caps text-foreground transition-colors duration-150 hover:text-accent"
+      >
+        New Arrivals
+      </a>
+    </nav>
+
+    <a
+      routerLink="/"
+      class="justify-self-center font-display text-2xl tracking-[-0.01em] text-foreground"
+    >
+      MAISON
+    </a>
+
+    <div class="flex items-center justify-end gap-1">
+      @if (auth.isAuthenticated()) {
+        <div class="relative">
+          <button
+            type="button"
+            class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
+            [attr.aria-expanded]="accountMenuOpen()"
+            aria-label="Account menu"
+            (click)="toggleAccountMenu()"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.25" />
+              <path d="M4.5 19.5c1.6-3.2 4.4-4.8 7.5-4.8s5.9 1.6 7.5 4.8" stroke-linecap="round" />
+            </svg>
+          </button>
+          @if (accountMenuOpen()) {
+            <div
+              class="absolute right-0 top-full mt-2 w-48 rounded-md border border-border bg-card py-2 shadow-md"
+            >
+              <p class="truncate px-4 py-1.5 text-sm text-foreground">{{ auth.currentUser()?.name }}</p>
+              <a
+                routerLink="/account"
+                (click)="closeAccountMenu()"
+                class="small-caps flex min-h-11 w-full items-center px-4 text-muted-foreground hover:text-accent"
+              >
+                My Account
+              </a>
+              <a
+                routerLink="/orders"
+                (click)="closeAccountMenu()"
+                class="small-caps flex min-h-11 w-full items-center px-4 text-muted-foreground hover:text-accent"
+              >
+                My Orders
+              </a>
+              <button
+                type="button"
+                class="small-caps flex min-h-11 w-full items-center px-4 text-left text-muted-foreground hover:text-accent"
+                (click)="signOut()"
+              >
+                Sign Out
+              </button>
+            </div>
+          }
+        </div>
+      } @else {
+        <a
+          routerLink="/login"
+          class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
+          aria-label="Sign in"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.25" />
+            <path d="M4.5 19.5c1.6-3.2 4.4-4.8 7.5-4.8s5.9 1.6 7.5 4.8" stroke-linecap="round" />
+          </svg>
+        </a>
+      }
+      <a
+        routerLink="/cart"
+        class="relative flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
+        aria-label="View cart"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M6 2 5 6m13-4 1 4M5 6h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 6Z" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        @if (cart.count() > 0) {
+          <span
+            class="small-caps absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] tracking-normal text-accent-foreground"
+          >
+            {{ cart.count() }}
+          </span>
+        }
+      </a>
+    </div>
+  </div>
+
+  @if (mobileMenuOpen()) {
+    <nav
+      id="mobile-nav"
+      aria-label="Primary"
+      class="flex flex-col gap-1 border-t border-border bg-background px-6 py-4 lg:hidden"
+    >
+      <a
+        routerLink="/products"
+        (click)="closeMobileMenu()"
+        class="small-caps flex min-h-11 items-center text-foreground"
+      >
+        Shop
+      </a>
+      <a
+        routerLink="/products"
+        [queryParams]="{ new: 'true' }"
+        (click)="closeMobileMenu()"
+        class="small-caps flex min-h-11 items-center text-foreground"
+      >
+        New Arrivals
+      </a>
+      @if (auth.isAuthenticated()) {
+        <a
+          routerLink="/account"
+          (click)="closeMobileMenu()"
+          class="small-caps flex min-h-11 items-center text-foreground"
+        >
+          My Account
+        </a>
+        <a
+          routerLink="/orders"
+          (click)="closeMobileMenu()"
+          class="small-caps flex min-h-11 items-center text-foreground"
+        >
+          My Orders
+        </a>
+      }
+    </nav>
+  }
+</header>

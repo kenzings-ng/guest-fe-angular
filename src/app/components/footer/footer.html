@@ -1,0 +1,65 @@
+<footer class="border-t border-border bg-background">
+  <div class="mx-auto max-w-7xl px-6 py-16 md:py-20">
+    <div class="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <a routerLink="/" class="font-display text-2xl text-foreground">MAISON</a>
+        <p class="mt-4 max-w-[26ch] text-sm leading-relaxed text-muted-foreground">
+          Considered clothing, cut to last. Est. in a single room above a bookshop.
+        </p>
+      </div>
+
+      <div>
+        <p class="small-caps text-muted-foreground">Shop</p>
+        <ul class="mt-4 space-y-3">
+          <li><a routerLink="/products" class="text-sm text-foreground hover:text-accent">All Products</a></li>
+          <li><a routerLink="/products" [queryParams]="{ new: 'true' }" class="text-sm text-foreground hover:text-accent">New Arrivals</a></li>
+          <li><a routerLink="/cart" class="text-sm text-foreground hover:text-accent">Cart</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="small-caps text-muted-foreground">Help</p>
+        <ul class="mt-4 space-y-3">
+          <li><a href="#" class="text-sm text-foreground hover:text-accent" (click)="$event.preventDefault()">Shipping &amp; Returns</a></li>
+          <li><a href="#" class="text-sm text-foreground hover:text-accent" (click)="$event.preventDefault()">Size Guide</a></li>
+          <li><a href="#" class="text-sm text-foreground hover:text-accent" (click)="$event.preventDefault()">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-span-2 md:col-span-1">
+        <p class="small-caps text-muted-foreground">Journal</p>
+        <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+          Notes on craft, once a month. No noise.
+        </p>
+        @if (subscribed()) {
+          <p class="mt-4 text-sm text-accent">You&rsquo;re on the list.</p>
+        } @else {
+          <form class="mt-4 flex gap-2" (ngSubmit)="onSubscribe()">
+            <label for="footer-email" class="sr-only">Email address</label>
+            <input
+              id="footer-email"
+              type="email"
+              [formControl]="email"
+              placeholder="Email address"
+              class="h-11 min-w-0 flex-1 rounded-md border border-border bg-transparent px-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-colors duration-150 ease-out focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            />
+            <button
+              type="submit"
+              class="small-caps flex h-11 shrink-0 touch-manipulation items-center rounded-md border border-foreground px-4 text-foreground transition-colors duration-200 hover:border-accent hover:text-accent"
+            >
+              Join
+            </button>
+          </form>
+          @if (email.invalid && email.touched) {
+            <p class="mt-2 text-xs text-muted-foreground">Enter a valid email address.</p>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-col items-center gap-4 border-t border-border pt-8 text-center md:flex-row md:justify-between md:text-left">
+      <p class="small-caps text-muted-foreground">&copy; {{ year }} Maison. All rights reserved.</p>
+      <p class="small-caps text-muted-foreground">Crafted with restraint.</p>
+    </div>
+  </div>
+</footer>

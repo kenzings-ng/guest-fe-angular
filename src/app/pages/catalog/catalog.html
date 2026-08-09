@@ -1,0 +1,47 @@
+<section class="mx-auto max-w-7xl px-6 py-16 md:py-20">
+  <div class="mb-12 text-center">
+    <p class="small-caps text-accent">{{ showNewOnly() ? 'New Arrivals' : 'Full Collection' }}</p>
+    <h1 class="mt-4 text-4xl text-foreground md:text-5xl">Shop All</h1>
+  </div>
+
+  <div
+    class="mb-10 flex flex-col gap-6 border-y border-border py-5 md:flex-row md:items-center md:justify-between"
+  >
+    <div class="flex flex-wrap gap-x-6 gap-y-3">
+      @for (category of categories(); track category) {
+        <button
+          type="button"
+          class="small-caps min-h-11 transition-colors duration-150"
+          [class]="selectedCategory() === category ? 'text-accent' : 'text-muted-foreground hover:text-foreground'"
+          (click)="selectedCategory.set(category)"
+        >
+          {{ category }}
+        </button>
+      }
+    </div>
+
+    <div class="flex items-center gap-3">
+      <label for="sort" class="small-caps text-muted-foreground">Sort</label>
+      <select
+        id="sort"
+        #sortSelect
+        class="h-11 rounded-md border border-border bg-transparent px-3 text-sm text-foreground transition-colors duration-150 ease-out focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+        (change)="onSortChange(sortSelect.value)"
+      >
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  @if (visibleProducts().length === 0) {
+    <p class="py-24 text-center text-muted-foreground">No products match these filters.</p>
+  } @else {
+    <div class="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
+      @for (product of visibleProducts(); track product.id) {
+        <app-product-card [product]="product" (quickAdd)="onQuickAdd($event)" />
+      }
+    </div>
+  }
+</section>

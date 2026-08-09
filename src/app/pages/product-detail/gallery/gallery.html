@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-4">
+  <div
+    #scrollContainer
+    class="flex snap-x snap-mandatory overflow-x-auto rounded-lg bg-muted [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    (scroll)="onScroll(scrollContainer)"
+  >
+    @for (image of images(); track image; let i = $index) {
+      <div class="relative aspect-[4/5] w-full shrink-0 snap-center">
+        <img
+          [ngSrc]="image"
+          [alt]="productName() + ' — view ' + (i + 1)"
+          fill
+          [priority]="i === 0"
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          class="object-cover"
+        />
+      </div>
+    }
+  </div>
+
+  @if (images().length > 1) {
+    <div class="flex gap-3" role="tablist" [attr.aria-label]="productName() + ' gallery thumbnails'">
+      @for (image of images(); track image; let i = $index) {
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="selectedIndex() === i"
+          [attr.aria-label]="'View image ' + (i + 1)"
+          class="relative aspect-[4/5] w-16 shrink-0 touch-manipulation overflow-hidden rounded-md border transition-colors duration-150"
+          [class]="selectedIndex() === i ? 'border-accent' : 'border-border hover:border-border-hover'"
+          (click)="scrollTo(scrollContainer, i)"
+        >
+          <img [ngSrc]="image" alt="" width="64" height="80" class="h-full w-full object-cover" />
+        </button>
+      }
+    </div>
+  }
+</div>

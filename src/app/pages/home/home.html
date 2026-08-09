@@ -1,0 +1,127 @@
+<section class="relative overflow-hidden px-6 pb-20 pt-16 md:pb-28 md:pt-24">
+  <div class="mx-auto max-w-5xl text-center">
+    <p class="small-caps text-accent">Autumn / Winter Collection</p>
+    <h1 class="mx-auto mt-6 max-w-4xl text-[2.5rem] leading-[1.1] text-foreground md:text-7xl">
+      Considered clothing, cut to last
+    </h1>
+    <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-relaxed text-muted-foreground">
+      Fabrics chosen for what they become after a hundred wears, not just the first.
+      A small collection, worn well for years.
+    </p>
+    <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <app-button variant="primary" routerLink="/products">Shop the Collection</app-button>
+      <app-button variant="ghost" routerLink="/products" [queryParams]="{ new: 'true' }">
+        Explore New Arrivals
+      </app-button>
+    </div>
+  </div>
+
+  <div class="relative mx-auto mt-20 max-w-5xl md:mt-28">
+    <div class="relative mx-auto aspect-[4/3] w-full max-w-2xl md:mr-8 md:ml-auto">
+      <div
+        class="absolute -left-8 -top-8 h-32 w-32 rounded-full border border-accent/30 md:-left-14 md:-top-14 md:h-52 md:w-52"
+        aria-hidden="true"
+      ></div>
+      <img
+        [ngSrc]="heroImage"
+        alt="Model wearing a wool overcoat from the current collection"
+        fill
+        priority
+        sizes="(min-width: 768px) 42vw, 90vw"
+        class="rounded-lg object-cover shadow-lg"
+      />
+      <div
+        class="absolute -bottom-10 -left-6 hidden h-44 w-32 overflow-hidden rounded-lg border-4 border-background shadow-lg md:block"
+      >
+        <img [ngSrc]="heroAccentImage" alt="" width="128" height="176" class="h-full w-full object-cover" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-20 md:py-28">
+  <app-section-label text="New Arrivals" />
+  <div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
+    @for (product of featured(); track product.id; let i = $index) {
+      <app-product-card [product]="product" [priority]="i < 2" (quickAdd)="addFirstAvailable($event)" />
+    }
+  </div>
+  <div class="mt-14 text-center">
+    <app-button variant="secondary" routerLink="/products">View All Products</app-button>
+  </div>
+</section>
+
+<section class="border-t border-border bg-muted/60">
+  <div class="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_0.7fr] md:gap-16 md:py-28">
+    <div class="flex flex-col justify-center">
+      <app-section-label text="Our Approach" />
+      <h2 class="text-4xl leading-tight text-foreground md:text-5xl">
+        Fewer pieces.<br />Made to matter.
+      </h2>
+      <p class="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted-foreground">
+        We release two collections a year, not twelve. Every fabric is sourced from mills
+        we&rsquo;ve worked with for over a decade, and every pattern is tested through a full
+        season before it reaches a rack.
+      </p>
+      <div class="mt-8">
+        <app-button variant="ghost" routerLink="/products">Read Our Story</app-button>
+      </div>
+    </div>
+    <div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-md">
+      <img
+        [ngSrc]="approachImage"
+        alt="Fabric detail from the current collection"
+        fill
+        sizes="(min-width: 768px) 30vw, 90vw"
+        class="object-cover"
+      />
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-20 md:py-28">
+  <app-section-label text="Why Maison" />
+  <div class="grid gap-10 md:grid-cols-3 md:gap-8">
+    <div class="border-t-2 border-accent pt-6">
+      <h3 class="font-display text-xl text-foreground">Considered Materials</h3>
+      <p class="mt-3 text-base leading-relaxed text-muted-foreground">
+        Wool from Biella, linen from Normandy, leather tanned the slow way. We name the mill on
+        every product page.
+      </p>
+    </div>
+    <div class="border-t-2 border-accent pt-6">
+      <h3 class="font-display text-xl text-foreground">Made to Last</h3>
+      <p class="mt-3 text-base leading-relaxed text-muted-foreground">
+        Every seam is tested through a full season of wear before a style ever reaches
+        production.
+      </p>
+    </div>
+    <div class="border-t-2 border-accent pt-6">
+      <h3 class="font-display text-xl text-foreground">Easy Returns</h3>
+      <p class="mt-3 text-base leading-relaxed text-muted-foreground">
+        Thirty days to try a piece at home. Free exchanges on sizing, no questions asked.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="border-y border-border bg-muted/60 px-6 py-20 md:py-28">
+  <div class="mx-auto max-w-3xl text-center">
+    <span class="font-display text-6xl text-accent" aria-hidden="true">&ldquo;</span>
+    <blockquote class="-mt-8 font-display text-2xl italic leading-snug text-foreground md:text-3xl">
+      Four years in and the coat still looks like the day I bought it. That&rsquo;s the whole
+      point.
+    </blockquote>
+    <p class="small-caps mt-8 text-muted-foreground">Elena R., Copenhagen</p>
+  </div>
+</section>
+
+<section class="px-6 py-20 text-center md:py-28">
+  <h2 class="text-4xl text-foreground md:text-5xl">The Full Collection</h2>
+  <p class="mx-auto mt-4 max-w-[42ch] text-lg text-muted-foreground">
+    Coats, knitwear, tailoring and accessories, built for a decade rather than a season.
+  </p>
+  <div class="mt-8">
+    <app-button variant="primary" routerLink="/products">Shop Now</app-button>
+  </div>
+</section>
