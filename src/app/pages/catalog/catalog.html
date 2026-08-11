@@ -1,7 +1,11 @@
 <section class="mx-auto max-w-7xl px-6 py-16 md:py-20">
   <div class="mb-12 text-center">
-    <p class="small-caps text-accent">{{ showNewOnly() ? 'New Arrivals' : 'Full Collection' }}</p>
-    <h1 class="mt-4 text-4xl text-foreground md:text-5xl">Shop All</h1>
+    <h1 class="text-4xl text-foreground md:text-5xl">
+      {{ showNewOnly() ? 'New Arrivals' : 'Shop All' }}
+    </h1>
+    @if (showNewOnly()) {
+      <p class="mt-4 text-base text-muted-foreground">Fresh from this season's collection.</p>
+    }
   </div>
 
   <div

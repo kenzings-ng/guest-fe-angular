@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartStore } from '../../services/cart.store';
+import { WishlistStore } from '../../services/wishlist.store';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,7 @@ import { CartStore } from '../../services/cart.store';
 export class Header {
   protected readonly cart = inject(CartStore);
   protected readonly auth = inject(AuthService);
+  protected readonly wishlist = inject(WishlistStore);
   protected readonly mobileMenuOpen = signal(false);
   protected readonly accountMenuOpen = signal(false);
 

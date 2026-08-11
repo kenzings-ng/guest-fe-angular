@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -6,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, RouterLink, Button],
+  imports: [ReactiveFormsModule, RouterLink, Button, NgOptimizedImage],
   templateUrl: './register.html',
 })
 export class Register {
@@ -14,6 +15,9 @@ export class Register {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+
+  protected readonly coverImage =
+    'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=1000&h=1400&q=80';
 
   protected readonly redirectTo = this.route.snapshot.queryParamMap.get('redirect');
   protected readonly loginQueryParams = this.redirectTo ? { redirect: this.redirectTo } : {};

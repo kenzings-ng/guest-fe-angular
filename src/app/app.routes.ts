@@ -8,6 +8,11 @@ export const routes: Routes = [
     title: 'Maison — Considered Clothing',
   },
   {
+    path: 'about',
+    loadComponent: () => import('./pages/about/about').then((m) => m.About),
+    title: 'Our Story — Maison',
+  },
+  {
     path: 'products',
     loadComponent: () => import('./pages/catalog/catalog').then((m) => m.Catalog),
     title: 'Shop All — Maison',
@@ -24,6 +29,16 @@ export const routes: Routes = [
     title: 'Your Bag — Maison',
   },
   {
+    path: 'wishlist',
+    loadComponent: () => import('./pages/wishlist/wishlist').then((m) => m.Wishlist),
+    title: 'Your Wishlist — Maison',
+  },
+  {
+    path: 'search',
+    loadComponent: () => import('./pages/search/search').then((m) => m.Search),
+    title: 'Search — Maison',
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then((m) => m.Login),
     title: 'Sign In — Maison',
@@ -32,6 +47,27 @@ export const routes: Routes = [
     path: 'register',
     loadComponent: () => import('./pages/register/register').then((m) => m.Register),
     title: 'Create an Account — Maison',
+  },
+  {
+    path: 'size-guide',
+    loadComponent: () => import('./pages/size-guide/size-guide').then((m) => m.SizeGuidePage),
+    title: 'Size Guide — Maison',
+  },
+  {
+    path: 'shipping-returns',
+    loadComponent: () =>
+      import('./pages/shipping-returns/shipping-returns').then((m) => m.ShippingReturns),
+    title: 'Shipping & Returns — Maison',
+  },
+  {
+    path: 'faq',
+    loadComponent: () => import('./pages/faq/faq').then((m) => m.Faq),
+    title: 'FAQ — Maison',
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
+    title: 'Contact — Maison',
   },
   {
     path: 'verify-email',

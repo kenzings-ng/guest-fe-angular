@@ -1,7 +1,6 @@
 <section class="relative overflow-hidden px-6 pb-20 pt-16 md:pb-28 md:pt-24">
   <div class="mx-auto max-w-5xl text-center">
-    <p class="small-caps text-accent">Autumn / Winter Collection</p>
-    <h1 class="mx-auto mt-6 max-w-4xl text-[2.5rem] leading-[1.1] text-foreground md:text-7xl">
+    <h1 class="mx-auto max-w-4xl text-[2.5rem] leading-[1.1] text-foreground md:text-7xl">
       Considered clothing, cut to last
     </h1>
     <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-relaxed text-muted-foreground">
@@ -30,6 +29,11 @@
         sizes="(min-width: 768px) 42vw, 90vw"
         class="rounded-lg object-cover shadow-lg"
       />
+      <span
+        class="small-caps absolute left-4 top-4 rounded-sm bg-background/90 px-3 py-1.5 text-accent shadow-xs md:left-6 md:top-6"
+      >
+        Autumn / Winter Collection
+      </span>
       <div
         class="absolute -bottom-10 -left-6 hidden h-44 w-32 overflow-hidden rounded-lg border-4 border-background shadow-lg md:block"
       >
@@ -54,7 +58,6 @@
 <section class="border-t border-border bg-muted/60">
   <div class="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_0.7fr] md:gap-16 md:py-28">
     <div class="flex flex-col justify-center">
-      <app-section-label text="Our Approach" />
       <h2 class="text-4xl leading-tight text-foreground md:text-5xl">
         Fewer pieces.<br />Made to matter.
       </h2>
@@ -64,7 +67,7 @@
         season before it reaches a rack.
       </p>
       <div class="mt-8">
-        <app-button variant="ghost" routerLink="/products">Read Our Story</app-button>
+        <app-button variant="ghost" routerLink="/about">Read Our Story</app-button>
       </div>
     </div>
     <div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-md">

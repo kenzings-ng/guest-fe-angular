@@ -10,7 +10,9 @@ import { Product } from '../../models/product.model';
 import { AuthService } from '../../services/auth.service';
 import { AddCartItemInput, CartStore } from '../../services/cart.store';
 import { getRelatedProducts, ProductService } from '../../services/product.service';
-import { AccordionItem } from './accordion-item/accordion-item';
+import { WishlistStore } from '../../services/wishlist.store';
+import { AccordionItem } from '../../components/accordion-item/accordion-item';
+import { SizeChart } from '../../components/size-chart/size-chart';
 import { Gallery } from './gallery/gallery';
 import { SizeSelector } from './size-selector/size-selector';
 
@@ -23,7 +25,16 @@ interface ProductLookup {
 
 @Component({
   selector: 'app-product-detail',
-  imports: [RouterLink, Button, ProductCard, SectionLabel, Gallery, SizeSelector, AccordionItem],
+  imports: [
+    RouterLink,
+    Button,
+    ProductCard,
+    SectionLabel,
+    Gallery,
+    SizeSelector,
+    AccordionItem,
+    SizeChart,
+  ],
   templateUrl: './product-detail.html',
 })
 export class ProductDetail {
@@ -31,6 +42,7 @@ export class ProductDetail {
   private readonly router = inject(Router);
   private readonly cart = inject(CartStore);
   private readonly auth = inject(AuthService);
+  protected readonly wishlist = inject(WishlistStore);
   private readonly titleService = inject(Title);
   private readonly productService = inject(ProductService);
 
@@ -58,6 +70,11 @@ export class ProductDetail {
     return product ? getRelatedProducts(this.allProducts(), product) : [];
   });
 
+  protected readonly saved = computed(() => {
+    const product = this.product();
+    return product ? this.wishlist.has(product.id) : false;
+  });
+
   protected readonly isApparelSizing = computed(() =>
     this.product()?.sizes.some((size) => APPAREL_SIZES.includes(size)) ?? false,
   );
@@ -80,6 +97,10 @@ export class ProductDetail {
       this.sizeError.set(false);
       this.justAdded.set(false);
     });
+  }
+
+  protected toggleWishlist(product: Product): void {
+    this.wishlist.toggle(product.id);
   }
 
   protected setQuantity(quantity: number): void {

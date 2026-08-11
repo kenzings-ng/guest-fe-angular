@@ -45,6 +45,32 @@
     </a>
 
     <div class="flex items-center justify-end gap-1">
+      <a
+        routerLink="/search"
+        class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
+        aria-label="Search"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" stroke-linecap="round" />
+        </svg>
+      </a>
+      <a
+        routerLink="/wishlist"
+        class="relative flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
+        aria-label="View wishlist"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z" stroke-linejoin="round" />
+        </svg>
+        @if (wishlist.count() > 0) {
+          <span
+            class="small-caps absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] tracking-normal text-accent-foreground"
+          >
+            {{ wishlist.count() }}
+          </span>
+        }
+      </a>
       @if (auth.isAuthenticated()) {
         <div class="relative">
           <button
@@ -139,6 +165,20 @@
         class="small-caps flex min-h-11 items-center text-foreground"
       >
         New Arrivals
+      </a>
+      <a
+        routerLink="/search"
+        (click)="closeMobileMenu()"
+        class="small-caps flex min-h-11 items-center text-foreground"
+      >
+        Search
+      </a>
+      <a
+        routerLink="/wishlist"
+        (click)="closeMobileMenu()"
+        class="small-caps flex min-h-11 items-center text-foreground"
+      >
+        Wishlist
       </a>
       @if (auth.isAuthenticated()) {
         <a

@@ -3,11 +3,7 @@ import { Component, input } from '@angular/core';
 @Component({
   selector: 'app-section-label',
   template: `
-    <div class="mb-6 flex items-center gap-4">
-      <span class="h-px flex-1 bg-border"></span>
-      <span class="small-caps text-accent">{{ text() }}</span>
-      <span class="h-px flex-1 bg-border"></span>
-    </div>
+    <h2 class="mb-8 font-display text-3xl text-foreground md:text-4xl">{{ text() }}</h2>
   `,
 })
 export class SectionLabel {
