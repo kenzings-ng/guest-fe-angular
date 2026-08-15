@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Order, OrderDetail, OrderItem, OrderPromotion } from '../models/order.model';
 import { PaymentMethod, Transaction } from '../models/transaction.model';
+import { GatewayPaymentMethod, PaymentEnvironment } from '../models/payment-credential.model';
 
 interface ApiTransaction {
   _id: string;
@@ -12,7 +13,12 @@ interface ApiTransaction {
   status: Transaction['status'];
   method: Transaction['method'];
   amount: number;
+  currency?: string;
   reference: string;
+  provider?: string;
+  providerStatus?: string;
+  cardBrand?: string;
+  cardLastFour?: string;
   note?: string;
   createdAt: string;
 }
@@ -38,7 +44,12 @@ function mapTransaction(api: ApiTransaction): Transaction {
     status: api.status,
     method: api.method,
     amount: api.amount,
+    currency: api.currency,
     reference: api.reference,
+    provider: api.provider,
+    providerStatus: api.providerStatus,
+    cardBrand: api.cardBrand,
+    cardLastFour: api.cardLastFour,
     note: api.note,
     createdAt: api.createdAt,
   };
@@ -69,6 +80,66 @@ export interface CheckoutInput {
   shippingAddress?: string;
   promotionCode?: string;
   paymentMethod?: PaymentMethod;
+  payment?: OnlinePaymentInput;
+}
+
+export interface OnlinePaymentInput {
+  token?: string;
+  provider: string;
+  environment: PaymentEnvironment;
+  paymentMethod: GatewayPaymentMethod;
+  source:
+    | { type: 'checkout' }
+    | {
+        type: 'card';
+        card: {
+          number: string;
+          holderName: string;
+          expiryMonth: string;
+          expiryYear: string;
+          cvv: string;
+        };
+      };
+  browser: {
+    userAgent?: string;
+    acceptLanguage?: string;
+    screenWidth: number;
+    screenHeight: number;
+    timeZoneOffset: number;
+  };
+  billingAddress: {
+    name: string;
+    line1: string;
+    city: string;
+    country: string;
+  };
+  returnUrl: string;
+}
+
+export interface PaymentNextAction {
+  type: 'redirect' | 'html';
+  redirectUrl?: string;
+  html?: string;
+}
+
+export interface CheckoutPayment {
+  paymentId?: string;
+  merchantOrderNo: string;
+  status: string;
+  provider: string;
+  paymentMethod: string;
+  nextAction?: PaymentNextAction;
+  code: string;
+  message: string;
+}
+
+interface ApiCheckoutResult extends ApiOrder {
+  payment?: CheckoutPayment;
+}
+
+export interface CheckoutResult {
+  order: Order;
+  payment?: CheckoutPayment;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -76,8 +147,10 @@ export class OrderService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/orders`;
 
-  checkout(input: CheckoutInput): Observable<Order> {
-    return this.http.post<ApiOrder>(`${this.baseUrl}/checkout`, input).pipe(map(mapOrder));
+  checkout(input: CheckoutInput): Observable<CheckoutResult> {
+    return this.http
+      .post<ApiCheckoutResult>(`${this.baseUrl}/checkout`, input)
+      .pipe(map((result) => ({ order: mapOrder(result), payment: result.payment })));
   }
 
   getMine(): Observable<Order[]> {
@@ -90,5 +163,17 @@ export class OrderService {
 
   cancel(id: string): Observable<Order> {
     return this.http.post<ApiOrder>(`${this.baseUrl}/${id}/cancel`, {}).pipe(map(mapOrder));
+  }
+
+  refreshPaymentStatus(id: string): Observable<CheckoutResult> {
+    return this.http
+      .post<ApiCheckoutResult>(`${this.baseUrl}/${id}/payment-status`, {})
+      .pipe(map((result) => ({ order: mapOrder(result), payment: result.payment })));
+  }
+
+  retryPayment(id: string, payment: OnlinePaymentInput): Observable<CheckoutResult> {
+    return this.http
+      .post<ApiCheckoutResult>(`${this.baseUrl}/${id}/payment-retry`, payment)
+      .pipe(map((result) => ({ order: mapOrder(result), payment: result.payment })));
   }
 }

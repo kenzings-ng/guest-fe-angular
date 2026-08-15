@@ -3,10 +3,11 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { WishlistStore } from '../../services/wishlist.store';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink, NgOptimizedImage],
+  imports: [RouterLink, NgOptimizedImage, ImageUrlPipe],
   templateUrl: './product-card.html',
 })
 export class ProductCard {

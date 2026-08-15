@@ -1,0 +1,42 @@
+<section class="mx-auto flex min-h-[55vh] max-w-xl items-center px-6 py-16 text-center">
+  <div class="w-full rounded-lg border border-border bg-card p-8 md:p-10">
+    @if (loading()) {
+      <p class="text-muted-foreground">Confirming your payment&hellip;</p>
+    } @else if (errorMessage()) {
+      <h1 class="font-display text-3xl text-foreground">Payment confirmation unavailable</h1>
+      <p class="mt-4 text-sm leading-relaxed text-muted-foreground">{{ errorMessage() }}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        @if (orderId) {
+          <app-button variant="secondary" [disabled]="refreshing()" (clicked)="refresh()">{{
+            refreshing() ? 'Checking…' : 'Try again'
+          }}</app-button>
+        }
+        <app-button variant="primary" [routerLink]="orderLink()">View order</app-button>
+      </div>
+    } @else if (payment(); as payment) {
+      <h1 class="font-display text-3xl text-foreground">
+        Payment {{ payment.status === 'captured' ? 'confirmed' : 'confirmation' }}
+      </h1>
+      <p class="mt-4 text-sm leading-relaxed text-muted-foreground">{{ statusMessage(payment) }}</p>
+      <p class="small-caps mt-4 text-muted-foreground">
+        {{ payment.provider }} &middot; {{ payment.status }}
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        @if (payment.status !== 'captured') {
+          <app-button variant="secondary" [disabled]="refreshing()" (clicked)="refresh()">{{
+            refreshing() ? 'Checking…' : 'Refresh status'
+          }}</app-button>
+        }
+        <app-button variant="primary" [routerLink]="orderLink()">View order</app-button>
+      </div>
+    } @else {
+      <h1 class="font-display text-3xl text-foreground">Order created</h1>
+      <p class="mt-4 text-sm text-muted-foreground">
+        We are waiting for the payment provider to confirm the result.
+      </p>
+      <div class="mt-8">
+        <app-button variant="primary" [routerLink]="orderLink()">View order</app-button>
+      </div>
+    }
+  </div>
+</section>

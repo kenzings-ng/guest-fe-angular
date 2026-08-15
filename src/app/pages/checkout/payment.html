@@ -1,0 +1,25 @@
+<section class="mx-auto max-w-xl px-6 py-16 md:py-20">
+  <a routerLink="/checkout" class="small-caps text-muted-foreground hover:text-accent">Back to checkout</a>
+  <h1 class="mt-5 text-4xl text-foreground">Enter card details</h1>
+  <p class="mt-3 text-sm text-muted-foreground">Your card details are sent securely to the payment gateway and are never stored by our server.</p>
+  @if (!billingComplete() || editingBilling()) {
+    <section class="mt-8 rounded-lg border border-accent/40 bg-card p-5" [formGroup]="checkoutForm">
+      <h2 class="font-display text-xl text-foreground">Billing information</h2>
+      <p class="mt-2 text-sm text-accent">Please complete your billing information before paying.</p>
+      <div class="mt-4 grid grid-cols-2 gap-3"><input class="field-input" placeholder="First name" formControlName="firstName" /><input class="field-input" placeholder="Last name" formControlName="lastName" /></div>
+      <input class="mt-3 field-input" placeholder="Billing address" formControlName="billingLine1" />
+      <div class="mt-3 grid grid-cols-2 gap-3"><input class="field-input" placeholder="City" formControlName="billingCity" /><input class="field-input uppercase" maxlength="2" placeholder="Country code" formControlName="billingCountry" /></div>
+      <div class="mt-4 flex justify-end"><app-button variant="secondary" type="button" (clicked)="saveBilling()">Save billing info</app-button></div>
+    </section>
+  } @else {
+    <section class="mt-8 rounded-lg border border-border bg-card p-5">
+      <div class="flex items-start justify-between gap-4"><div><p class="small-caps text-muted-foreground">Billing information</p><p class="mt-2 text-sm text-foreground">{{ checkoutForm.controls.firstName.value }} {{ checkoutForm.controls.lastName.value }}</p><p class="text-sm text-muted-foreground">{{ checkoutForm.controls.billingLine1.value }}, {{ checkoutForm.controls.billingCity.value }}, {{ checkoutForm.controls.billingCountry.value }}</p></div><button type="button" class="small-caps text-accent hover:text-accent-secondary" (click)="editBilling()">Edit</button></div>
+    </section>
+  }
+  <form class="mt-10 space-y-4" [formGroup]="checkoutForm" (submit)="$event.preventDefault(); placeOrder()" novalidate>
+    <input class="field-input" inputmode="numeric" autocomplete="cc-number" placeholder="Card number" formControlName="cardNumber" />
+    <div class="grid grid-cols-3 gap-3"><input class="field-input" inputmode="numeric" maxlength="2" placeholder="MM" formControlName="expiryMonth" /><input class="field-input" inputmode="numeric" maxlength="4" placeholder="YYYY" formControlName="expiryYear" /><input class="field-input" inputmode="numeric" maxlength="4" placeholder="CVV" formControlName="cvv" /></div>
+    @if (checkoutError()) { <p class="text-sm text-accent" role="alert">{{ checkoutError() }}</p> }
+    <app-button variant="primary" type="submit" [fullWidth]="true" [disabled]="placingOrder()">{{ placingOrder() ? 'Starting secure checkout…' : 'Pay securely' }}</app-button>
+  </form>
+</section>

@@ -13,10 +13,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const isApiRequest = req.url.startsWith(environment.apiUrl);
   const token = auth.getAccessToken();
-  const authorizedReq =
-    isApiRequest && token
-      ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
-      : req;
+
+  const baseHeaders: Record<string, string> = {
+    'ngrok-skip-browser-warning': 'true',
+  };
+  if (isApiRequest && token) {
+    baseHeaders['Authorization'] = `Bearer ${token}`;
+  }
+  const authorizedReq = req.clone({ setHeaders: baseHeaders });
 
   return next(authorizedReq).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -24,7 +28,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401 && isApiRequest && !isAuthEndpoint && auth.getRefreshToken()) {
         return auth.refreshAccessToken().pipe(
           switchMap((newToken) =>
-            next(req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } })),
+            next(
+              req.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${newToken}`,
+                  'ngrok-skip-browser-warning': 'true',
+                },
+              }),
+            ),
           ),
           catchError((refreshError) => {
             router.navigate(['/login']);

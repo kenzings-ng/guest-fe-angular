@@ -36,6 +36,19 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## API runtime configuration
+
+The API is read from `env.js`, loaded before the Angular bundle. It is not baked
+into the build. After deploying an existing build, set `API_URL` in `.env` (or
+as a process environment variable) and regenerate only this file:
+
+```bash
+npm run config:runtime -- --output dist/guest-fe/browser/env.js
+```
+
+For example, `API_URL=https://api.example.com` makes requests directly to that
+backend. Ensure the backend permits the frontend origin through CORS.
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:

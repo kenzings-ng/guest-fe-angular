@@ -1,0 +1,25 @@
+<section class="mx-auto max-w-7xl px-6 py-16 md:py-20">
+  <div class="mb-8 flex items-center justify-between"><div><p class="small-caps text-muted-foreground">Secure checkout</p><h1 class="mt-2 text-4xl text-foreground">Complete your order</h1></div><a routerLink="/cart" class="small-caps text-muted-foreground hover:text-accent">Back to bag</a></div>
+  @if (cart.items().length === 0) {
+    <div class="py-24 text-center"><p class="text-lg text-muted-foreground">Your bag is empty.</p><app-button class="mt-6" variant="primary" routerLink="/products">Continue Shopping</app-button></div>
+  } @else {
+    <div class="grid gap-12 md:grid-cols-[1fr_360px]">
+      <form class="space-y-6" (submit)="$event.preventDefault(); handleSubmit()" [formGroup]="checkoutForm" novalidate>
+        <section class="space-y-3"><h2 class="font-display text-xl text-foreground">Delivery</h2><input id="shippingAddress" class="field-input" placeholder="Shipping address" formControlName="shippingAddress" /></section>
+        <fieldset class="space-y-3 border-t border-border pt-6"><legend class="font-display text-xl text-foreground">Payment method</legend>
+          <label class="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 text-sm text-foreground"><input type="radio" name="paymentMethod" [checked]="selectedPaymentId() === 'cod'" (change)="selectPayment('cod')" /><span><span class="block font-medium">Cash on delivery</span><span class="text-xs text-muted-foreground">Pay when your order arrives.</span></span></label>
+          @for (credential of onlineCredentials(); track credential.id) { <label class="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 text-sm text-foreground"><input type="radio" name="paymentMethod" [checked]="selectedPaymentId() === credential.id" (change)="selectPayment(credential.id)" /><span><span class="block font-medium">Card payment</span><span class="text-xs text-muted-foreground">Secure card checkout &middot; {{ credential.cardBrands.join(', ') || 'supported cards' }}</span></span></label> }
+          @if (loadingPayments()) { <p class="text-xs text-muted-foreground">Checking payment availability&hellip;</p> } @if (paymentLoadError()) { <p class="text-xs text-muted-foreground">{{ paymentLoadError() }}</p> }
+        </fieldset>
+        @if (isOnlinePayment()) {
+          <fieldset class="space-y-3 border-t border-border pt-6"><legend class="font-display text-xl text-foreground">Card details</legend><p class="text-xs text-muted-foreground">Card details are sent to the payment gateway and are never stored by our server.</p>
+            <input class="field-input" autocomplete="address-line1" placeholder="Billing address" formControlName="billingLine1" /><div class="grid grid-cols-2 gap-3"><input class="field-input" placeholder="First name" formControlName="firstName" /><input class="field-input" placeholder="Last name" formControlName="lastName" /></div><input class="field-input" placeholder="City" formControlName="billingCity" /><input class="field-input uppercase" maxlength="2" placeholder="Country code (e.g. US)" formControlName="billingCountry" />
+          </fieldset>
+        }
+        @if (checkoutError()) { <p class="text-sm text-accent" role="alert">{{ checkoutError() }}</p> }
+        <app-button variant="primary" type="submit" [fullWidth]="true" [disabled]="placingOrder()">{{ placingOrder() ? 'Continuing…' : isOnlinePayment() ? 'Continue to secure payment' : 'Place order' }}</app-button>
+      </form>
+      <aside class="h-fit rounded-lg border border-border bg-card p-8 md:sticky md:top-28"><h2 class="font-display text-xl text-foreground">Order summary</h2><div class="mt-6 space-y-3 text-sm">@for (item of cart.items(); track lineKey(item)) {<div class="flex justify-between gap-3 text-muted-foreground"><span>{{ item.name }} × {{ item.quantity }}</span><span class="text-foreground">${{ item.price * item.quantity }}</span></div>}<div class="flex justify-between border-t border-border pt-4 font-medium text-foreground"><span>Total</span><span>${{ cart.subtotal() }}</span></div></div></aside>
+    </div>
+  }
+</section>

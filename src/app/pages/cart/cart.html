@@ -1,6 +1,5 @@
 <section class="mx-auto max-w-7xl px-6 py-16 md:py-20">
   <h1 class="text-4xl text-foreground md:text-5xl">Your Bag</h1>
-
   @if (cart.items().length === 0) {
     <div class="flex flex-col items-center gap-6 py-24 text-center">
       <p class="text-lg text-muted-foreground">Your bag is empty.</p>
@@ -11,103 +10,38 @@
       <ul class="flex flex-col divide-y divide-border border-y border-border">
         @for (item of cart.items(); track lineKey(item)) {
           <li class="flex gap-5 py-6">
-            <a
-              [routerLink]="['/products', item.slug]"
-              class="relative block h-32 w-24 shrink-0 overflow-hidden rounded-md bg-muted"
-            >
+            <a [routerLink]="['/products', item.slug]" class="relative block h-32 w-24 shrink-0 overflow-hidden rounded-md bg-muted">
               <img [ngSrc]="item.image" [alt]="item.name" width="96" height="128" class="h-full w-full object-cover" />
             </a>
             <div class="flex flex-1 flex-col">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <a [routerLink]="['/products', item.slug]" class="font-display text-lg text-foreground hover:text-accent">
-                    {{ item.name }}
-                  </a>
+                  <a [routerLink]="['/products', item.slug]" class="font-display text-lg text-foreground hover:text-accent">{{ item.name }}</a>
                   <p class="small-caps mt-1 text-muted-foreground">{{ item.color }} &middot; {{ item.size }}</p>
                 </div>
                 <p class="shrink-0 font-display text-lg text-foreground">${{ item.price * item.quantity }}</p>
               </div>
-
               <div class="mt-auto flex items-center justify-between pt-4">
                 <div class="flex h-11 items-center gap-3 rounded-md border border-border px-1">
-                  <button
-                    type="button"
-                    class="flex h-9 w-9 touch-manipulation items-center justify-center text-foreground hover:text-accent"
-                    aria-label="Decrease quantity"
-                    (click)="setQuantity(item, item.quantity - 1)"
-                  >
-                    −
-                  </button>
+                  <button type="button" class="flex h-9 w-9 items-center justify-center text-foreground hover:text-accent" (click)="setQuantity(item, item.quantity - 1)">−</button>
                   <span class="min-w-4 text-center text-sm">{{ item.quantity }}</span>
-                  <button
-                    type="button"
-                    class="flex h-9 w-9 touch-manipulation items-center justify-center text-foreground hover:text-accent"
-                    aria-label="Increase quantity"
-                    (click)="setQuantity(item, item.quantity + 1)"
-                  >
-                    +
-                  </button>
+                  <button type="button" class="flex h-9 w-9 items-center justify-center text-foreground hover:text-accent" (click)="setQuantity(item, item.quantity + 1)">+</button>
                 </div>
-                <button
-                  type="button"
-                  class="small-caps min-h-11 text-muted-foreground hover:text-accent"
-                  (click)="remove(item)"
-                >
-                  Remove
-                </button>
+                <button type="button" class="small-caps min-h-11 text-muted-foreground hover:text-accent" (click)="remove(item)">Remove</button>
               </div>
             </div>
           </li>
         }
       </ul>
-
       <aside class="h-fit rounded-lg border border-border bg-card p-8 md:sticky md:top-28">
         <h2 class="font-display text-xl text-foreground">Order Summary</h2>
         <div class="mt-6 space-y-3 text-sm">
-          <div class="flex justify-between text-muted-foreground">
-            <span>Subtotal</span>
-            <span class="text-foreground">${{ cart.subtotal() }}</span>
-          </div>
-          <div class="flex justify-between text-muted-foreground">
-            <span>Shipping</span>
-            <span class="text-foreground">Free</span>
-          </div>
+          <div class="flex justify-between text-muted-foreground"><span>Subtotal</span><span class="text-foreground">${{ cart.subtotal() }}</span></div>
+          <div class="flex justify-between text-muted-foreground"><span>Shipping</span><span class="text-foreground">Free</span></div>
         </div>
-        <div class="mt-4 flex items-center justify-between border-t border-border pt-4">
-          <span class="small-caps text-muted-foreground">Total</span>
-          <span class="font-display text-2xl text-foreground">${{ cart.subtotal() }}</span>
-        </div>
-
-        <div class="mt-6 border-t border-border pt-6">
-          <label for="shippingAddress" class="small-caps mb-2 block text-muted-foreground">
-            Shipping Address
-          </label>
-          <input
-            id="shippingAddress"
-            type="text"
-            placeholder="123 Main St, City"
-            class="field-input"
-            [value]="shippingAddress()"
-            (input)="onAddressInput($any($event.target).value)"
-          />
-        </div>
-
-        @if (checkoutError()) {
-          <p class="mt-3 text-sm text-accent">{{ checkoutError() }}</p>
-        }
-
-        <div class="mt-6">
-          <app-button variant="primary" [fullWidth]="true" [disabled]="placingOrder()" (clicked)="placeOrder()">
-            {{ placingOrder() ? 'Placing Order…' : 'Proceed to Checkout' }}
-          </app-button>
-        </div>
-        <p class="mt-3 text-xs leading-relaxed text-muted-foreground">
-          Pay by cash on delivery. We&rsquo;ll confirm your order by email before it ships.
-        </p>
-
-        <div class="mt-3 text-center">
-          <app-button variant="ghost" routerLink="/products">Continue Shopping</app-button>
-        </div>
+        <div class="mt-4 flex items-center justify-between border-t border-border pt-4"><span class="small-caps text-muted-foreground">Total</span><span class="font-display text-2xl text-foreground">${{ cart.subtotal() }}</span></div>
+        <div class="mt-6"><app-button variant="primary" [fullWidth]="true" routerLink="/checkout">Proceed to checkout</app-button></div>
+        <div class="mt-3 text-center"><app-button variant="ghost" routerLink="/products">Continue Shopping</app-button></div>
       </aside>
     </div>
   }

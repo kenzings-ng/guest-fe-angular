@@ -29,6 +29,18 @@ export const routes: Routes = [
     title: 'Your Bag — Maison',
   },
   {
+    path: 'checkout',
+    loadComponent: () => import('./pages/checkout/checkout').then((m) => m.Checkout),
+    title: 'Checkout — Maison',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'checkout/payment',
+    loadComponent: () => import('./pages/checkout/payment').then((m) => m.CheckoutPayment),
+    title: 'Enter card details — Maison',
+    canActivate: [authGuard],
+  },
+  {
     path: 'wishlist',
     loadComponent: () => import('./pages/wishlist/wishlist').then((m) => m.Wishlist),
     title: 'Your Wishlist — Maison',
@@ -74,6 +86,20 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/verify-email/verify-email').then((m) => m.VerifyEmail),
     title: 'Verify Email — Maison',
+  },
+  {
+    path: 'payment/return',
+    loadComponent: () =>
+      import('./pages/payment-return/payment-return').then((m) => m.PaymentReturn),
+    title: 'Payment status — Maison',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'payment/confirmation',
+    loadComponent: () =>
+      import('./pages/payment-return/payment-return').then((m) => m.PaymentReturn),
+    title: 'Payment confirmation — Maison',
+    canActivate: [authGuard],
   },
   {
     path: 'account',
