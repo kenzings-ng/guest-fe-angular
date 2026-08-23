@@ -1,72 +1,156 @@
-# GuestFe
+# Maison Guest
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+Maison Guest là storefront dành cho khách hàng của hệ thống thương mại điện tử Maison. Ứng dụng cung cấp toàn bộ hành trình mua sắm, từ khám phá sản phẩm đến đặt hàng và thanh toán online.
 
-## Development server
+## Tính năng chính
 
-To start a local development server, run:
+- Duyệt danh mục, tìm kiếm và xem chi tiết sản phẩm.
+- Xem thư viện ảnh, chọn kích thước và tham khảo size guide.
+- Quản lý wishlist và giỏ hàng.
+- Đăng ký, đăng nhập, xác minh email và quản lý tài khoản.
+- Nhập thông tin giao hàng, checkout và thanh toán online.
+- Theo dõi danh sách đơn hàng, chi tiết đơn hàng và trạng thái thanh toán.
+- Các trang nội dung: giới thiệu, FAQ, liên hệ, vận chuyển và đổi trả.
 
-```bash
-ng serve
-```
+## Công nghệ
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- [Angular 22](https://angular.dev/) với standalone components và lazy-loaded routes.
+- [TypeScript 6](https://www.typescriptlang.org/).
+- [RxJS 7](https://rxjs.dev/) và Angular Signals.
+- [Tailwind CSS 4](https://tailwindcss.com/).
+- [Vitest](https://vitest.dev/) cho unit test.
+- Nginx cho môi trường production.
 
-## Code scaffolding
+## Yêu cầu môi trường
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js `^22.22.3`, `^24.15.0` hoặc `>=26.0.0`.
+- npm; dự án hiện sử dụng npm `11.12.1`.
+- Backend API đang hoạt động và cho phép origin của frontend qua CORS.
 
-```bash
-ng generate component component-name
-```
+## Cài đặt và chạy local
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## API runtime configuration
-
-The API is read from `env.js`, loaded before the Angular bundle. It is not baked
-into the build. After deploying an existing build, set `API_URL` in `.env` (or
-as a process environment variable) and regenerate only this file:
+### 1. Cài dependencies
 
 ```bash
-npm run config:runtime -- --output dist/guest-fe/browser/env.js
+npm ci
 ```
 
-For example, `API_URL=https://api.example.com` makes requests directly to that
-backend. Ensure the backend permits the frontend origin through CORS.
+### 2. Cấu hình API
 
-## Running unit tests
+Tạo file `.env` tại thư mục gốc của dự án:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+```dotenv
+API_URL=http://localhost:3000
+```
+
+Sinh file runtime config từ biến môi trường trên:
 
 ```bash
-ng test
+npm run config:runtime
 ```
 
-## Running end-to-end tests
+Lệnh này tạo `public/env.js`. Cả `.env` và `public/env.js` đều không được commit vào Git.
 
-For end-to-end (e2e) testing, run:
+### 3. Khởi động development server
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Mở [http://localhost:4200](http://localhost:4200). Ứng dụng tự động reload khi source code thay đổi.
 
-## Additional Resources
+> Ứng dụng sẽ dừng khởi tạo nếu `env.js` không cung cấp `API_URL` hợp lệ.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Scripts
+
+| Lệnh | Mô tả |
+| --- | --- |
+| `npm start` | Chạy development server. |
+| `npm run build` | Tạo production build trong `dist/guest-fe/browser`. |
+| `npm run watch` | Build ở chế độ development và theo dõi thay đổi. |
+| `npm test` | Chạy unit test bằng Vitest. |
+| `npm run config:runtime` | Sinh `public/env.js` từ `.env` hoặc biến môi trường. |
+| `npm run ng -- <command>` | Chạy Angular CLI trực tiếp. |
+
+## Kiểm thử
+
+```bash
+npm test
+```
+
+Dự án hiện chưa cấu hình test end-to-end.
+
+## Build production
+
+Sinh runtime config trước khi build để Angular sao chép file vào output:
+
+```bash
+API_URL=https://api.example.com npm run config:runtime
+npm run build
+```
+
+Build hoàn tất được đặt tại:
+
+```text
+dist/guest-fe/browser
+```
+
+### Thay đổi API mà không build lại
+
+`env.js` được nạp trước Angular bundle nên API URL không bị đóng cứng vào source code. Có thể cập nhật runtime config của một build đã tồn tại bằng lệnh:
+
+```bash
+API_URL=https://api.example.com \
+  npm run config:runtime -- --output dist/guest-fe/browser/env.js
+```
+
+File `/env.js` không nên được cache để cấu hình mới có hiệu lực ngay ở lần tải trang tiếp theo.
+
+## Triển khai với Nginx
+
+Repository cung cấp cấu hình mẫu tại `deploy/nginx/guest-fe.conf`. Trước khi sử dụng, cập nhật ít nhất hai giá trị:
+
+- `server_name`: domain của storefront.
+- `root`: đường dẫn tuyệt đối tới `dist/guest-fe/browser` trên máy chủ.
+
+Sau đó cài và kích hoạt cấu hình:
+
+```bash
+sudo cp deploy/nginx/guest-fe.conf /etc/nginx/sites-available/guest-fe.conf
+sudo ln -s /etc/nginx/sites-available/guest-fe.conf /etc/nginx/sites-enabled/guest-fe.conf
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+Cấu hình mẫu đã bao gồm:
+
+- Fallback về `index.html` cho Angular client-side routing.
+- Không cache `env.js`.
+- Cache 30 ngày cho các static asset khớp với danh sách extension trong file cấu hình.
+- Gzip cho CSS, JavaScript, JSON và SVG.
+
+## Cấu trúc dự án
+
+```text
+guest-fe-angular/
+├── deploy/nginx/          # Cấu hình Nginx mẫu
+├── public/                # Static assets và runtime env.js
+├── scripts/               # Script sinh runtime config
+└── src/
+    ├── app/
+    │   ├── components/    # UI components dùng chung
+    │   ├── guards/        # Bảo vệ các route yêu cầu đăng nhập
+    │   ├── interceptors/  # Gắn thông tin xác thực vào HTTP request
+    │   ├── models/        # Kiểu dữ liệu của domain
+    │   ├── pages/         # Các trang được lazy load theo route
+    │   └── services/      # API clients và signal stores
+    └── environments/      # Đọc runtime API configuration
+```
+
+## Lưu ý khi kết nối backend
+
+- `API_URL` phải là URL đầy đủ của backend, không có giá trị mặc định.
+- Backend phải cấu hình CORS cho origin của frontend và cho phép các header ứng dụng gửi, đặc biệt là `Authorization` và `ngrok-skip-browser-warning`.
+- Nếu thay đổi domain frontend hoặc backend, hãy kiểm tra lại CORS, redirect thanh toán và cơ chế xác thực.
+- Không commit `.env` hoặc `public/env.js`.
+- `/env.js` được phục vụ công khai; chỉ đặt cấu hình public như API base URL trong file này, tuyệt đối không đặt credential, token hoặc secret.
