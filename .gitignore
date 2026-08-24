@@ -32,8 +32,14 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/mcp.json
 .history/*
+
+# Local AI, browser automation, and visual review artifacts
+/.impeccable/
+/.playwright-cli/
+/AGENTS.md
+/DESIGN.md
+/PRODUCT.md
 
 # Miscellaneous
 /.angular/cache
