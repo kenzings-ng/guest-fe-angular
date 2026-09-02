@@ -5,7 +5,7 @@
       @if (hasSecondImage()) {
         <img [ngSrc]="product().images[1] | imageUrl" alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" class="object-cover opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100" />
       }
-      @if (product().isNew) { <span class="small-caps absolute bottom-0 left-0 bg-accent px-2.5 py-1.5 text-white">New drop</span> }
+      @if (product().isNew) { <span class="small-caps absolute bottom-0 left-0 bg-accent px-2.5 py-1.5 text-accent-foreground">New drop</span> }
     </div>
     <div class="grid grid-cols-[1fr_auto] gap-x-3 border-b border-border py-3">
       <div class="min-w-0">

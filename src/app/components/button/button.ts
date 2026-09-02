@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'inverse';
 
 const BASE_CLASS =
   'touch-manipulation inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap px-6 text-sm font-semibold tracking-[0.01em] transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-out disabled:pointer-events-none disabled:opacity-40 active:scale-[0.97]';
@@ -14,6 +14,8 @@ const VARIANT_CLASS: Record<ButtonVariant, string> = {
     'border border-foreground bg-transparent text-foreground hover:border-accent hover:text-accent',
   ghost:
     'border-b border-foreground/30 px-0 text-foreground hover:border-accent hover:text-accent',
+  inverse:
+    'border border-background bg-transparent text-background hover:bg-background hover:text-foreground',
 };
 
 @Component({

@@ -136,7 +136,13 @@
     min-height: 3rem;
     width: 100%;
     border-radius: 0;
-    border: 1px solid var(--color-border-hover);
+    /* Darkened from --color-border-hover (#a99a9c, 2.6:1) to #988b8c (~3.16:1 on
+       background, ~3.23:1 on card) to clear the WCAG 1.4.11 3:1 UI-boundary
+       threshold. Scoped locally rather than changing the token globally, since
+       --color-border-hover is also used elsewhere (header dropdown border,
+       product-card image border, gallery/size-selector hover states) where it
+       serves a different "hover emphasis" purpose this fix isn't meant to touch. */
+    border: 1px solid #988b8c;
     background: var(--color-card);
     padding-inline: 0.875rem;
     font-size: 0.9375rem;
