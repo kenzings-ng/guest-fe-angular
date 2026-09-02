@@ -35,8 +35,26 @@
       <a routerLink="/cart" class="relative flex h-11 min-w-11 items-center justify-center gap-2 px-2 text-foreground hover:text-accent" aria-label="View cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3 5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 7h14" /></svg><span class="small-caps hidden sm:inline">{{ cart.count() }}</span></a>
     </div>
   </div>
-  @if (mobileMenuOpen()) {
-    <nav id="mobile-nav" aria-label="Mobile navigation" class="border-t border-border bg-background px-4 py-3 lg:hidden">
+</header>
+
+<div class="fixed inset-0 z-50 lg:hidden" [class]="mobileMenuOpen() ? '' : 'pointer-events-none'">
+    <button
+      type="button"
+      tabindex="-1"
+      aria-label="Close menu"
+      class="absolute inset-0 bg-foreground/40 transition-opacity duration-200 ease-out"
+      [class]="mobileMenuOpen() ? 'opacity-100' : 'opacity-0'"
+      (click)="closeMobileMenu()"
+    ></button>
+
+    <nav
+      id="mobile-nav"
+      aria-label="Mobile navigation"
+      [attr.aria-hidden]="mobileMenuOpen() ? null : 'true'"
+      [attr.inert]="mobileMenuOpen() ? null : ''"
+      class="absolute left-0 top-0 flex h-full w-full max-w-xs flex-col gap-1 overflow-y-auto bg-background px-6 py-6 shadow-lg transition-transform duration-200 ease-out"
+      [class]="mobileMenuOpen() ? 'translate-x-0' : '-translate-x-full'"
+    >
       <a routerLink="/products" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Collection</a>
       <a routerLink="/products" [queryParams]="{ new: 'true' }" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">New arrivals</a>
       <a routerLink="/about" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Our studio</a>
@@ -46,5 +64,4 @@
       @if (auth.isAuthenticated()) { <a routerLink="/account" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Account</a> }
       @else { <a routerLink="/login" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center">Sign in</a> }
     </nav>
-  }
-</header>
+</div>
