@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink, Button, NgOptimizedImage],
   templateUrl: './login.html',
+  host: { class: 'contents' },
 })
 export class Login {
   private readonly fb = inject(FormBuilder);

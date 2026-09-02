@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-register',
   imports: [ReactiveFormsModule, RouterLink, Button, NgOptimizedImage],
   templateUrl: './register.html',
+  host: { class: 'contents' },
 })
 export class Register {
   private readonly fb = inject(FormBuilder);
