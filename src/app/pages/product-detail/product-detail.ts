@@ -122,7 +122,7 @@ export class ProductDetail {
     this.sizeError.set(false);
     this.cart.add(this.buildCartInput(product)).subscribe(() => {
       this.cart.close();
-      this.router.navigateByUrl('/cart');
+      this.router.navigateByUrl('/checkout');
     });
   }
 
