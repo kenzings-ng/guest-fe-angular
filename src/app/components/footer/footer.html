@@ -1,5 +1,5 @@
 <footer class="border-t border-foreground bg-foreground text-background">
-  <div class="route-frame grid gap-12 py-14 md:grid-cols-[1.3fr_0.7fr_0.7fr_1.2fr] md:py-18">
+  <div class="route-frame grid gap-12 py-14 md:grid-cols-[1.3fr_0.7fr_0.7fr_1.2fr] md:py-20">
     <div>
       <a routerLink="/" class="inline-flex text-background" aria-label="MAISON home"><app-brand-mark subtitle="PATTERN ROOM" /></a>
       <p class="mt-5 max-w-[30ch] text-sm leading-6 text-background/70">Contemporary unisex essentials for everyday expression.</p>
@@ -7,29 +7,29 @@
     <div>
       <p class="small-caps text-background/55">Collection</p>
       <ul class="mt-4 space-y-1 text-sm">
-        <li><a routerLink="/products" class="flex min-h-11 items-center hover:text-white">All pieces</a></li>
-        <li><a routerLink="/products" [queryParams]="{ new: 'true' }" class="flex min-h-11 items-center hover:text-white">New drop</a></li>
-        <li><a routerLink="/wishlist" class="flex min-h-11 items-center hover:text-white">Wishlist</a></li>
+        <li><a routerLink="/products" class="flex min-h-11 items-center hover:text-accent-foreground">All pieces</a></li>
+        <li><a routerLink="/products" [queryParams]="{ new: 'true' }" class="flex min-h-11 items-center hover:text-accent-foreground">New drop</a></li>
+        <li><a routerLink="/wishlist" class="flex min-h-11 items-center hover:text-accent-foreground">Wishlist</a></li>
       </ul>
     </div>
     <div>
       <p class="small-caps text-background/55">Service</p>
       <ul class="mt-4 space-y-1 text-sm">
-        <li><a routerLink="/size-guide" class="flex min-h-11 items-center hover:text-white">Size guide</a></li>
-        <li><a routerLink="/shipping-returns" class="flex min-h-11 items-center hover:text-white">Delivery &amp; returns</a></li>
-        <li><a routerLink="/contact" class="flex min-h-11 items-center hover:text-white">Contact</a></li>
+        <li><a routerLink="/size-guide" class="flex min-h-11 items-center hover:text-accent-foreground">Size guide</a></li>
+        <li><a routerLink="/shipping-returns" class="flex min-h-11 items-center hover:text-accent-foreground">Delivery &amp; returns</a></li>
+        <li><a routerLink="/contact" class="flex min-h-11 items-center hover:text-accent-foreground">Contact</a></li>
       </ul>
     </div>
     <div>
       <p class="small-caps text-background/55">Collection notes</p>
       <p class="mt-4 text-sm leading-6 text-background/70">A concise update when a new edit is available.</p>
       @if (subscribed()) {
-        <p class="mt-5 border-t border-background/25 pt-4 text-sm text-white">Email saved for this demo session.</p>
+        <p class="mt-5 border-t border-background/25 pt-4 text-sm text-accent-foreground">Email saved for this demo session.</p>
       } @else {
         <form class="mt-5 flex border-b border-background/45" (ngSubmit)="onSubscribe()">
           <label for="footer-email" class="sr-only">Email address</label>
-          <input id="footer-email" type="email" [formControl]="email" autocomplete="email" spellcheck="false" placeholder="Email address" class="h-12 min-w-0 flex-1 bg-transparent px-0 text-sm text-white placeholder:text-background/45" />
-          <button type="submit" class="small-caps min-h-11 px-3 text-background hover:text-white">Join</button>
+          <input id="footer-email" type="email" [formControl]="email" autocomplete="email" spellcheck="false" placeholder="Email address" class="h-12 min-w-0 flex-1 bg-transparent px-0 text-sm text-accent-foreground placeholder:text-background/55" />
+          <button type="submit" class="small-caps min-h-11 px-3 text-background hover:text-accent-foreground">Join</button>
         </form>
         @if (email.invalid && email.touched) { <p class="mt-2 text-xs text-background/70">Enter a valid email address.</p> }
       }

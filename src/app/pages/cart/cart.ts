@@ -3,6 +3,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Button } from '../../components/button/button';
+import { QuantityStepper } from '../../components/quantity-stepper/quantity-stepper';
 import { CartItem } from '../../models/cart-item.model';
 import { PaymentCredential } from '../../models/payment-credential.model';
 import { AuthService } from '../../services/auth.service';
@@ -14,7 +15,7 @@ const PENDING_PAYMENT_ORDER_KEY = 'maison-pending-payment-order-id';
 
 @Component({
   selector: 'app-cart',
-  imports: [RouterLink, NgOptimizedImage, ReactiveFormsModule, Button],
+  imports: [RouterLink, NgOptimizedImage, ReactiveFormsModule, Button, QuantityStepper],
   templateUrl: './cart.html',
 })
 export class Cart {

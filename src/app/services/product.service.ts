@@ -50,7 +50,10 @@ export class ProductService {
   private readonly baseUrl = `${environment.apiUrl}/products`;
 
   getAll(): Observable<Product[]> {
-    return this.http.get<ApiProduct[]>(this.baseUrl).pipe(map((list) => list.map(mapProduct)));
+    return this.http.get<ApiProduct[]>(this.baseUrl).pipe(
+      map((list) => list.map(mapProduct)),
+      catchError(() => of([] as Product[])),
+    );
   }
 
   getBySlug(slug: string): Observable<Product | undefined> {

@@ -23,9 +23,7 @@
               </div>
               <div class="mt-auto flex items-center justify-between pt-4">
                 <div class="flex h-11 items-center gap-3 rounded-md border border-border px-1">
-                  <button type="button" class="flex h-9 w-9 items-center justify-center text-foreground hover:text-accent" (click)="setQuantity(item, item.quantity - 1)">−</button>
-                  <span class="min-w-4 text-center text-sm">{{ item.quantity }}</span>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center text-foreground hover:text-accent" (click)="setQuantity(item, item.quantity + 1)">+</button>
+                  <app-quantity-stepper [quantity]="item.quantity" (quantityChange)="setQuantity(item, $event)" />
                 </div>
                 <button type="button" class="small-caps min-h-11 text-muted-foreground hover:text-accent" (click)="remove(item)">Remove</button>
               </div>

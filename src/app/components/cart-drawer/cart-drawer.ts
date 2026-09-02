@@ -4,10 +4,12 @@ import { RouterLink } from '@angular/router';
 import { CartItem } from '../../models/cart-item.model';
 import { CartStore } from '../../services/cart.store';
 import { Button } from '../button/button';
+import { CloseButton } from '../close-button/close-button';
+import { QuantityStepper } from '../quantity-stepper/quantity-stepper';
 
 @Component({
   selector: 'app-cart-drawer',
-  imports: [RouterLink, NgOptimizedImage, Button],
+  imports: [RouterLink, NgOptimizedImage, Button, CloseButton, QuantityStepper],
   templateUrl: './cart-drawer.html',
   host: {
     '(document:keydown.escape)': 'cart.close()',
