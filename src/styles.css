@@ -98,8 +98,6 @@
     background: var(--color-foreground);
     padding: 0.75rem 1rem;
     color: var(--color-background);
-    font-size: 0.875rem;
-    font-weight: 700;
   }
 
   .skip-link:focus-visible { transform: translateY(0); }
@@ -124,7 +122,7 @@
   .maison-brand__notch { stroke: var(--color-accent); stroke-width: 2.5; }
 
   .maison-brand__copy { display: grid; line-height: 1; }
-  .maison-brand__word { font-size: 1.125rem; font-weight: 760; letter-spacing: 0.16em; }
+  .maison-brand__word { font-weight: 760; letter-spacing: 0.16em; }
   .maison-brand__subtitle {
     margin-top: 0.25rem;
     font-family: var(--font-mono);
@@ -200,7 +198,7 @@
 
 @media (max-width: 639.98px) {
   .route-frame { width: min(100% - 2rem, 80rem); }
-  .maison-brand__word { font-size: 1rem; letter-spacing: 0.12em; }
+  .maison-brand__word { letter-spacing: 0.12em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
