@@ -19,16 +19,7 @@
   >
     <div class="flex items-center justify-between border-b border-border px-6 py-5">
       <h2 class="font-display text-xl text-foreground">Your Bag</h2>
-      <button
-        type="button"
-        class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-muted-foreground hover:text-foreground"
-        aria-label="Close cart"
-        (click)="cart.close()"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
-        </svg>
-      </button>
+      <app-close-button ariaLabel="Close cart" (closed)="cart.close()" />
     </div>
 
     <div class="flex-1 overflow-y-auto px-6 py-6">
@@ -61,23 +52,11 @@
 
                 <div class="mt-auto flex items-center justify-between pt-3">
                   <div class="flex items-center gap-3 rounded-md border border-border">
-                    <button
-                      type="button"
-                      class="flex h-11 w-11 touch-manipulation items-center justify-center text-foreground hover:text-accent"
-                      aria-label="Decrease quantity"
-                      (click)="setQuantity(item, item.quantity - 1)"
-                    >
-                      −
-                    </button>
-                    <span class="min-w-4 text-center text-sm">{{ item.quantity }}</span>
-                    <button
-                      type="button"
-                      class="flex h-11 w-11 touch-manipulation items-center justify-center text-foreground hover:text-accent"
-                      aria-label="Increase quantity"
-                      (click)="setQuantity(item, item.quantity + 1)"
-                    >
-                      +
-                    </button>
+                    <app-quantity-stepper
+                      [quantity]="item.quantity"
+                      size="md"
+                      (quantityChange)="setQuantity(item, $event)"
+                    />
                   </div>
                   <button
                     type="button"

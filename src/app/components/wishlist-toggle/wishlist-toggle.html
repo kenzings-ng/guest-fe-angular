@@ -1,0 +1,22 @@
+<button
+  type="button"
+  [class]="classes()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-pressed]="saved()"
+  (click)="onToggle($event)"
+>
+  <svg
+    viewBox="0 0 24 24"
+    [attr.width]="iconSize()"
+    [attr.height]="iconSize()"
+    [attr.fill]="saved() ? 'currentColor' : 'none'"
+    stroke="currentColor"
+    [attr.stroke-width]="strokeWidth()"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"
+      [attr.stroke-linejoin]="strokeLinejoin()"
+    />
+  </svg>
+</button>

@@ -67,52 +67,14 @@
 
           <div class="mt-6 flex items-center gap-4">
             <div class="flex h-11 shrink-0 items-center gap-3 rounded-md border border-border px-1">
-              <button
-                type="button"
-                class="flex h-9 w-9 touch-manipulation items-center justify-center text-foreground hover:text-accent"
-                aria-label="Decrease quantity"
-                (click)="setQuantity(quantity() - 1)"
-              >
-                −
-              </button>
-              <span class="min-w-4 text-center text-sm">{{ quantity() }}</span>
-              <button
-                type="button"
-                class="flex h-9 w-9 touch-manipulation items-center justify-center text-foreground hover:text-accent"
-                aria-label="Increase quantity"
-                (click)="setQuantity(quantity() + 1)"
-              >
-                +
-              </button>
+              <app-quantity-stepper [quantity]="quantity()" (quantityChange)="setQuantity($event)" />
             </div>
             <div class="flex-1">
               <app-button variant="primary" [fullWidth]="true" (clicked)="addToCart(product)">
                 {{ justAdded() ? 'Added to Bag' : 'Add to Bag' }}
               </app-button>
             </div>
-            <button
-              type="button"
-              class="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-md border border-border transition-colors duration-150 ease-out hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-              [class]="saved() ? 'text-accent' : 'text-foreground hover:text-accent'"
-              [attr.aria-label]="(saved() ? 'Remove ' : 'Save ') + product.name + (saved() ? ' from' : ' to') + ' your wishlist'"
-              [attr.aria-pressed]="saved()"
-              (click)="toggleWishlist(product)"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                [attr.fill]="saved() ? 'currentColor' : 'none'"
-                stroke="currentColor"
-                stroke-width="1.5"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
+            <app-wishlist-toggle [productId]="product.id" [productName]="product.name" [iconSize]="20" />
           </div>
           <div class="mt-3">
             <app-button variant="secondary" [fullWidth]="true" (clicked)="buyNow(product)">

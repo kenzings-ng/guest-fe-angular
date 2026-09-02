@@ -1,0 +1,17 @@
+<button
+  type="button"
+  [class]="buttonClass()"
+  aria-label="Decrease quantity"
+  (click)="quantityChange.emit(quantity() - 1)"
+>
+  −
+</button>
+<span class="min-w-4 text-center text-sm">{{ quantity() }}</span>
+<button
+  type="button"
+  [class]="buttonClass()"
+  aria-label="Increase quantity"
+  (click)="quantityChange.emit(quantity() + 1)"
+>
+  +
+</button>
