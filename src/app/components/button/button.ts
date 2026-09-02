@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'inverse';
 
 const BASE_CLASS =
-  'touch-manipulation inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap px-6 text-sm font-semibold tracking-[0.01em] transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-out disabled:pointer-events-none disabled:opacity-40 active:scale-[0.97]';
+  'touch-manipulation inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap px-6 text-sm font-semibold tracking-[0.01em] transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-out disabled:pointer-events-none active:scale-[0.97]';
 
 const VARIANT_CLASS: Record<ButtonVariant, string> = {
   primary:
