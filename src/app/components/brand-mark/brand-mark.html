@@ -1,0 +1,21 @@
+<span class="maison-brand" aria-label="MAISON">
+  <svg
+    data-maison-mark="pattern-m"
+    class="maison-brand__mark"
+    viewBox="0 0 48 48"
+    role="img"
+    aria-hidden="true"
+  >
+    <path class="maison-brand__piece" d="M4 42V7h10l10 15 10-15h10v35H33V24l-9 13-9-13v18H4Z" />
+    <path class="maison-brand__seam" d="M24 22v15M14 7l10 15L34 7" />
+    <path class="maison-brand__notch" d="m20 4 4 4 4-4" />
+  </svg>
+  @if (!compact()) {
+    <span class="maison-brand__copy">
+      <span class="maison-brand__word">MAISON</span>
+      @if (subtitle(); as label) {
+        <span class="maison-brand__subtitle">{{ label }}</span>
+      }
+    </span>
+  }
+</span>

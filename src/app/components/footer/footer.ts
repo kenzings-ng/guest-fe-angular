@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { BrandMark } from '../brand-mark/brand-mark';
 
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, BrandMark],
   templateUrl: './footer.html',
 })
 export class Footer {

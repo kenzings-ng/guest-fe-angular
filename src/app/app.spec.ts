@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
@@ -6,7 +7,7 @@ describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([])],
+      providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
   });
 
@@ -21,5 +22,7 @@ describe('App', () => {
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('header')?.textContent).toContain('MAISON');
+    expect(compiled.querySelector('header svg[data-maison-mark="pattern-m"]')).toBeTruthy();
+    expect(compiled.querySelector('nav[aria-label="Primary navigation"]')).toBeTruthy();
   });
 });

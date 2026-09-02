@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthResponse, User } from '../models/user.model';
 
@@ -44,7 +44,29 @@ export class AuthService {
   }
 
   verifyEmail(token: string): Observable<{ message: string }> {
-    return this.http.get<{ message: string }>(`${this.baseUrl}/verify`, { params: { token } });
+    return this.http
+      .get<{ message: string }>(`${this.baseUrl}/verify`, { params: { token } })
+      .pipe(tap(() => this.markCurrentUserVerified()));
+  }
+
+  syncCurrentUser(): Observable<User | null> {
+    if (!this.accessToken) {
+      return of(null);
+    }
+    return this.http.get<User>(`${this.baseUrl}/me`).pipe(
+      tap((user) => this.persistUser(user)),
+      map((user) => user),
+    );
+  }
+
+  resendVerification(): Observable<{ message: string }> {
+    const user = this._currentUser();
+    if (!user) {
+      return throwError(() => new Error('Sign in before requesting another verification email.'));
+    }
+    return this.http.post<{ message: string }>(`${this.baseUrl}/resend-verification`, {
+      email: user.email,
+    });
   }
 
   logout(): void {
@@ -95,10 +117,21 @@ export class AuthService {
   private persistSession(res: AuthResponse): void {
     this.accessToken = res.accessToken;
     this.refreshTokenValue = res.refreshToken;
-    this._currentUser.set(res.user);
     localStorage.setItem(ACCESS_TOKEN_KEY, res.accessToken);
     localStorage.setItem(REFRESH_TOKEN_KEY, res.refreshToken);
-    localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+    this.persistUser(res.user);
+  }
+
+  private persistUser(user: User): void {
+    this._currentUser.set(user);
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
+  private markCurrentUserVerified(): void {
+    const user = this._currentUser();
+    if (user && !user.isVerified) {
+      this.persistUser({ ...user, isVerified: true });
+    }
   }
 
   private clearSession(): void {

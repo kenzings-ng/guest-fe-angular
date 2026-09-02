@@ -1,11 +1,21 @@
+<!--
+THESIS: MAISON Pattern Room makes product discovery feel like entering a working fashion studio and refuses the centered luxury-template hero.
+OWN-WORLD: optic pattern paper, midnight wool, cobalt chalk, notch red, measurement rails, seam geometry and decisive editorial imagery.
+STORY: visitors discover contemporary unisex essentials, understand the collection, and move directly into browsing and purchase.
+FIRST VIEWPORT: a measurement header frames an asymmetric split of oversized type, product image and a cobalt shop action, with pattern notation guiding the eye.
+FORM: assigned direction 7, seed 8e5a38fd.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
 <div class="pointer-events-none fixed inset-0 z-0 paper-texture"></div>
 <div
   class="pointer-events-none fixed left-1/2 top-0 z-0 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-accent/[0.02] blur-3xl"
 ></div>
 
 <div class="relative z-10 flex min-h-screen flex-col">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <app-header />
-  <main class="flex-1">
+  <app-email-verification-banner />
+  <main id="main-content" class="flex-1" tabindex="-1">
     <router-outlet />
   </main>
   <app-footer />

@@ -5,15 +5,15 @@ import { RouterLink } from '@angular/router';
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
 const BASE_CLASS =
-  'touch-manipulation inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-md px-6 text-sm font-medium tracking-[0.02em] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40';
+  'touch-manipulation inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap px-6 text-sm font-semibold tracking-[0.01em] transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-out disabled:pointer-events-none disabled:opacity-40 active:scale-[0.97]';
 
 const VARIANT_CLASS: Record<ButtonVariant, string> = {
   primary:
-    'bg-accent text-accent-foreground shadow-xs hover:-translate-y-0.5 hover:bg-accent-secondary hover:shadow-accent active:translate-y-0',
+    'border border-accent bg-accent text-accent-foreground hover:border-foreground hover:bg-foreground',
   secondary:
-    'border border-foreground bg-transparent text-foreground hover:border-accent hover:bg-muted hover:text-accent',
+    'border border-foreground bg-transparent text-foreground hover:border-accent hover:text-accent',
   ghost:
-    'text-muted-foreground underline decoration-transparent decoration-1 underline-offset-4 hover:text-foreground hover:decoration-accent',
+    'border-b border-foreground/30 px-0 text-foreground hover:border-accent hover:text-accent',
 };
 
 @Component({

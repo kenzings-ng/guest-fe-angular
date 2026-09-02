@@ -21,11 +21,11 @@ export class Home {
   private readonly productService = inject(ProductService);
 
   protected readonly heroImage =
-    'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=1000&h=1250&q=80';
+    'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&w=1200&h=1500&q=85';
   protected readonly heroAccentImage =
     'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=500&h=625&q=80';
   protected readonly approachImage =
-    'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&w=800&h=1000&q=80';
+    'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=900&h=1125&q=80';
 
   private readonly products = toSignal(this.productService.getAll(), {
     initialValue: [] as Product[],
@@ -34,7 +34,8 @@ export class Home {
   protected readonly featured = computed(() => {
     const all = this.products();
     const newArrivals = all.filter((product) => product.isNew);
-    return (newArrivals.length ? newArrivals : all).slice(0, 4);
+    const remaining = all.filter((product) => !newArrivals.some((item) => item.id === product.id));
+    return [...newArrivals, ...remaining].slice(0, 4);
   });
 
   protected addFirstAvailable(product: Product): void {

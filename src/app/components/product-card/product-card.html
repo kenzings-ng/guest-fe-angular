@@ -1,77 +1,26 @@
-<div class="group relative flex flex-col">
-  <a [routerLink]="['/products', product().slug]" class="block focus-visible:outline-none">
-    <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
-      <img
-        [ngSrc]="product().images[0] | imageUrl"
-        [alt]="product().name"
-        fill
-        [priority]="priority()"
-        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-        class="object-cover transition-opacity duration-200 ease-out"
-        [class]="hasSecondImage() ? 'group-hover:opacity-0' : ''"
-      />
+<article class="group relative flex flex-col">
+  <a [routerLink]="['/products', product().slug]" class="block">
+    <div class="notch-corner relative aspect-[4/5] overflow-hidden border border-border-hover bg-muted">
+      <img [ngSrc]="product().images[0] | imageUrl" [alt]="product().name" fill [priority]="priority()" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" class="object-cover transition-opacity duration-200 ease-out" [class]="hasSecondImage() ? 'group-hover:opacity-0' : ''" />
       @if (hasSecondImage()) {
-        <img
-          [ngSrc]="product().images[1] | imageUrl"
-          [alt]="''"
-          fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-          class="object-cover opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100"
-        />
+        <img [ngSrc]="product().images[1] | imageUrl" alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" class="object-cover opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100" />
       }
-
-      @if (product().isNew) {
-        <span
-          class="small-caps absolute left-3 top-3 rounded-sm bg-background/90 px-2 py-1 text-accent shadow-xs"
-        >
-          New
-        </span>
-      }
+      @if (product().isNew) { <span class="small-caps absolute bottom-0 left-0 bg-accent px-2.5 py-1.5 text-white">New drop</span> }
     </div>
-
-    <div class="mt-4 space-y-1">
-      <p class="small-caps text-muted-foreground">{{ product().category }}</p>
-      <h3 class="font-display text-lg leading-snug text-foreground">{{ product().name }}</h3>
-      <p class="font-display text-base text-foreground">${{ product().price }}</p>
+    <div class="grid grid-cols-[1fr_auto] gap-x-3 border-b border-border py-3">
+      <div class="min-w-0">
+        <p class="small-caps text-muted-foreground">{{ product().category }}</p>
+        <h3 class="mt-1 line-clamp-2 min-h-10 text-base font-semibold leading-5 tracking-[-0.02em] text-foreground">{{ product().name }}</h3>
+      </div>
+      <p class="self-end font-mono text-sm tabular-nums text-foreground">${{ product().price }}</p>
     </div>
   </a>
-
-  <div
-    class="absolute right-3 top-3 flex flex-col gap-2 opacity-100 transition-opacity duration-200 ease-out lg:opacity-0 lg:focus-within:opacity-100 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100"
-  >
-    <button
-      type="button"
-      class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-full border border-border bg-background/90 shadow-xs transition-colors duration-150 ease-out hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-      [class]="saved() ? 'text-accent' : 'text-foreground hover:text-accent'"
-      [attr.aria-label]="(saved() ? 'Remove ' : 'Save ') + product().name + (saved() ? ' from' : ' to') + ' your wishlist'"
-      [attr.aria-pressed]="saved()"
-      (click)="onToggleWishlist($event)"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        width="18"
-        height="18"
-        [attr.fill]="saved() ? 'currentColor' : 'none'"
-        stroke="currentColor"
-        stroke-width="1.5"
-        aria-hidden="true"
-      >
-        <path
-          d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"
-          stroke-linejoin="round"
-        />
-      </svg>
+  <div class="absolute right-2 top-2 flex gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100">
+    <button type="button" class="flex h-11 w-11 items-center justify-center border border-foreground/25 bg-background/95 text-foreground hover:border-accent hover:text-accent" [class]="saved() ? 'text-accent' : ''" [attr.aria-label]="(saved() ? 'Remove ' : 'Save ') + product().name + (saved() ? ' from' : ' to') + ' your wishlist'" [attr.aria-pressed]="saved()" (click)="onToggleWishlist($event)">
+      <svg viewBox="0 0 24 24" width="18" height="18" [attr.fill]="saved() ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z" /></svg>
     </button>
-    <button
-      type="button"
-      class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-full border border-border bg-background/90 text-foreground shadow-xs transition-colors duration-150 ease-out hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-      [attr.aria-label]="'Quick add ' + product().name + ' to cart'"
-      (click)="onQuickAdd($event)"
-    >
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <path d="M6 2 5 6m13-4 1 4M5 6h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 6Z" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M12 10.5v4M10 12.5h4" stroke-linecap="round" />
-      </svg>
+    <button type="button" class="flex h-11 w-11 items-center justify-center border border-foreground bg-foreground text-background hover:bg-accent" [attr.aria-label]="'Quick add ' + product().name + ' to cart'" (click)="onQuickAdd($event)">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3 5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 7" /><path d="M12 10v5M9.5 12.5h5" /></svg>
     </button>
   </div>
-</div>
+</article>

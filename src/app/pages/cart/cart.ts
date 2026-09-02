@@ -56,6 +56,11 @@ export class Cart {
   protected readonly isOnlinePayment = computed(() => this.selectedCredential() !== undefined);
 
   constructor() {
+    if (!this.auth.isAuthenticated()) {
+      this.loadingPayments.set(false);
+      return;
+    }
+
     this.paymentCredentials.available().subscribe({
       next: (credentials) => {
         this.credentials.set(credentials);

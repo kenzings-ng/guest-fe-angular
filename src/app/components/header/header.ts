@@ -3,10 +3,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartStore } from '../../services/cart.store';
 import { WishlistStore } from '../../services/wishlist.store';
+import { BrandMark } from '../brand-mark/brand-mark';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, BrandMark],
   templateUrl: './header.html',
   host: {
     '(document:keydown.escape)': 'mobileMenuOpen.set(false); accountMenuOpen.set(false)',

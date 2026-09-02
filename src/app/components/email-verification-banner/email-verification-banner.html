@@ -1,0 +1,59 @@
+@if (user(); as currentUser) {
+  @if (!currentUser.isVerified) {
+    <section
+      data-testid="email-verification-banner"
+      class="relative border-y border-accent/20 bg-accent-muted text-foreground"
+      aria-labelledby="email-verification-title"
+    >
+      <div class="route-frame flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex min-w-0 items-start gap-3">
+          <span
+            class="mt-0.5 grid size-10 shrink-0 place-items-center border border-accent/25 bg-card text-accent"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M3.75 6.75h16.5v10.5H3.75z" />
+              <path d="m4.5 7.5 7.5 5.25 7.5-5.25" />
+              <path d="m16.75 4.25 1 1 2-2" />
+            </svg>
+          </span>
+
+          <div class="min-w-0">
+            <h2 id="email-verification-title" class="text-base font-semibold tracking-[-0.02em]">
+              Verify your email
+            </h2>
+            <p class="mt-1 text-sm leading-6 text-muted-foreground">
+              We sent a confirmation link to
+              <strong class="break-all font-semibold text-foreground">{{ currentUser.email }}</strong>.
+              Verify it to keep your account details secure and up to date.
+            </p>
+
+            @if (resendState() === 'sent') {
+              <p id="email-verification-feedback" role="status" class="mt-2 text-sm font-semibold text-accent">
+                A new verification link is on its way.
+              </p>
+            } @else if (resendState() === 'error') {
+              <p id="email-verification-feedback" role="status" class="mt-2 text-sm font-semibold text-accent">
+                We could not send the email. Try again.
+              </p>
+            } @else {
+              <span id="email-verification-feedback" class="sr-only" aria-live="polite">
+                @if (resendState() === 'sending') { Sending a new verification email. }
+              </span>
+            }
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="min-h-11 shrink-0 border border-accent bg-accent px-5 text-sm font-bold text-accent-foreground transition-colors duration-150 hover:border-foreground hover:bg-foreground disabled:hover:border-accent disabled:hover:bg-accent sm:self-center"
+          [disabled]="isResendDisabled()"
+          aria-describedby="email-verification-feedback"
+          (click)="resend()"
+        >
+          {{ actionLabel() }}
+        </button>
+      </div>
+    </section>
+  }
+}

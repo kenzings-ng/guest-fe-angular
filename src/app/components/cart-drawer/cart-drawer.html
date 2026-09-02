@@ -1,14 +1,19 @@
 <div class="fixed inset-0 z-50" [class]="cart.isOpen() ? '' : 'pointer-events-none'">
-  <div
+  <button
+    type="button"
+    tabindex="-1"
+    aria-label="Close cart"
     class="absolute inset-0 bg-foreground/40 transition-opacity duration-200 ease-out"
     [class]="cart.isOpen() ? 'opacity-100' : 'opacity-0'"
     (click)="cart.close()"
-  ></div>
+  ></button>
 
   <aside
     role="dialog"
     aria-modal="true"
     aria-label="Shopping cart"
+    [attr.aria-hidden]="cart.isOpen() ? null : 'true'"
+    [attr.inert]="cart.isOpen() ? null : ''"
     class="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-card shadow-lg transition-transform duration-200 ease-out"
     [class]="cart.isOpen() ? 'translate-x-0' : 'translate-x-full'"
   >
@@ -58,7 +63,7 @@
                   <div class="flex items-center gap-3 rounded-md border border-border">
                     <button
                       type="button"
-                      class="flex h-9 w-9 touch-manipulation items-center justify-center text-foreground hover:text-accent"
+                      class="flex h-11 w-11 touch-manipulation items-center justify-center text-foreground hover:text-accent"
                       aria-label="Decrease quantity"
                       (click)="setQuantity(item, item.quantity - 1)"
                     >
@@ -67,7 +72,7 @@
                     <span class="min-w-4 text-center text-sm">{{ item.quantity }}</span>
                     <button
                       type="button"
-                      class="flex h-9 w-9 touch-manipulation items-center justify-center text-foreground hover:text-accent"
+                      class="flex h-11 w-11 touch-manipulation items-center justify-center text-foreground hover:text-accent"
                       aria-label="Increase quantity"
                       (click)="setQuantity(item, item.quantity + 1)"
                     >
@@ -76,7 +81,7 @@
                   </div>
                   <button
                     type="button"
-                    class="small-caps text-muted-foreground hover:text-accent"
+                    class="small-caps min-h-11 px-2 text-muted-foreground hover:text-accent"
                     (click)="remove(item)"
                   >
                     Remove

@@ -1,201 +1,50 @@
-<header class="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:grid lg:grid-cols-3">
-    <button
-      type="button"
-      class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground lg:hidden"
-      [attr.aria-expanded]="mobileMenuOpen()"
-      aria-controls="mobile-nav"
-      aria-label="Toggle menu"
-      (click)="toggleMobileMenu()"
-    >
-      @if (mobileMenuOpen()) {
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
-        </svg>
-      } @else {
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
-        </svg>
-      }
+<header class="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
+  <div class="hidden border-b border-border bg-muted/55 sm:block">
+    <div class="route-frame flex min-h-9 items-center justify-between gap-4">
+      <p class="small-caps hidden text-muted-foreground sm:block">MAISON course studio / Ho Chi Minh City</p>
+      <nav aria-label="Customer support" class="ml-auto flex items-center gap-5">
+        <a routerLink="/contact" class="small-caps flex min-h-9 items-center text-muted-foreground hover:text-accent">Support</a>
+        <a routerLink="/orders" class="small-caps flex min-h-9 items-center text-muted-foreground hover:text-accent">Track order</a>
+      </nav>
+    </div>
+  </div>
+  <div class="route-frame grid h-[4.75rem] grid-cols-[auto_1fr_auto] items-center gap-4 lg:grid-cols-[auto_1fr_auto]">
+    <button type="button" class="flex h-11 w-11 items-center justify-center text-foreground transition-colors duration-150 hover:text-accent lg:hidden" [attr.aria-expanded]="mobileMenuOpen()" aria-controls="mobile-nav" aria-label="Toggle navigation" (click)="toggleMobileMenu()">
+      @if (mobileMenuOpen()) { <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" /></svg> }
+      @else { <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M3 7h18M3 12h12M3 17h18" /></svg> }
     </button>
-
-    <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
-      <a
-        routerLink="/products"
-        routerLinkActive="text-accent"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="small-caps text-foreground transition-colors duration-150 hover:text-accent"
-      >
-        Shop
-      </a>
-      <a
-        routerLink="/products"
-        [queryParams]="{ new: 'true' }"
-        class="small-caps text-foreground transition-colors duration-150 hover:text-accent"
-      >
-        New Arrivals
-      </a>
+    <a routerLink="/" class="text-foreground lg:order-first" aria-label="MAISON home"><app-brand-mark /></a>
+    <nav class="hidden items-center justify-center gap-8 lg:flex" aria-label="Primary navigation">
+      <a routerLink="/products" routerLinkActive="text-accent" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">Collection</a>
+      <a routerLink="/products" [queryParams]="{ new: 'true' }" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">New arrivals</a>
+      <a routerLink="/about" routerLinkActive="text-accent" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">Our studio</a>
     </nav>
-
-    <a
-      routerLink="/"
-      class="justify-self-center font-display text-2xl tracking-[-0.01em] text-foreground"
-    >
-      MAISON
-    </a>
-
-    <div class="flex items-center justify-end gap-1">
-      <a
-        routerLink="/search"
-        class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
-        aria-label="Search"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-3.5-3.5" stroke-linecap="round" />
-        </svg>
-      </a>
-      <a
-        routerLink="/wishlist"
-        class="relative flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
-        aria-label="View wishlist"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z" stroke-linejoin="round" />
-        </svg>
-        @if (wishlist.count() > 0) {
-          <span
-            class="small-caps absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] tracking-normal text-accent-foreground"
-          >
-            {{ wishlist.count() }}
-          </span>
-        }
-      </a>
+    <div class="flex items-center justify-end gap-0.5">
+      <a routerLink="/search" class="flex h-11 w-11 items-center justify-center text-foreground hover:text-accent" aria-label="Search products"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg></a>
+      <a routerLink="/wishlist" class="relative hidden h-11 w-11 items-center justify-center text-foreground hover:text-accent sm:flex" aria-label="View wishlist"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z" /></svg>@if (wishlist.count() > 0) { <span class="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center bg-accent px-1 font-mono text-[10px] text-white">{{ wishlist.count() }}</span> }</a>
       @if (auth.isAuthenticated()) {
-        <div class="relative">
-          <button
-            type="button"
-            class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
-            [attr.aria-expanded]="accountMenuOpen()"
-            aria-label="Account menu"
-            (click)="toggleAccountMenu()"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="12" cy="8" r="3.25" />
-              <path d="M4.5 19.5c1.6-3.2 4.4-4.8 7.5-4.8s5.9 1.6 7.5 4.8" stroke-linecap="round" />
-            </svg>
-          </button>
+        <div class="relative hidden sm:block">
+          <button type="button" class="flex h-11 w-11 items-center justify-center text-foreground hover:text-accent" [attr.aria-expanded]="accountMenuOpen()" aria-label="Account menu" (click)="toggleAccountMenu()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.25" /><path d="M4.5 20c1.6-3.4 4.4-5.1 7.5-5.1s5.9 1.7 7.5 5.1" /></svg></button>
           @if (accountMenuOpen()) {
-            <div
-              class="absolute right-0 top-full mt-2 w-48 rounded-md border border-border bg-card py-2 shadow-md"
-            >
-              <p class="truncate px-4 py-1.5 text-sm text-foreground">{{ auth.currentUser()?.name }}</p>
-              <a
-                routerLink="/account"
-                (click)="closeAccountMenu()"
-                class="small-caps flex min-h-11 w-full items-center px-4 text-muted-foreground hover:text-accent"
-              >
-                My Account
-              </a>
-              <a
-                routerLink="/orders"
-                (click)="closeAccountMenu()"
-                class="small-caps flex min-h-11 w-full items-center px-4 text-muted-foreground hover:text-accent"
-              >
-                My Orders
-              </a>
-              <button
-                type="button"
-                class="small-caps flex min-h-11 w-full items-center px-4 text-left text-muted-foreground hover:text-accent"
-                (click)="signOut()"
-              >
-                Sign Out
-              </button>
-            </div>
+            <div class="absolute right-0 top-full mt-2 w-56 border border-border-hover bg-card p-2 shadow-md"><p class="truncate border-b border-border px-3 py-2 text-sm font-semibold">{{ auth.currentUser()?.name }}</p><a routerLink="/account" (click)="closeAccountMenu()" class="small-caps flex min-h-11 items-center px-3 hover:bg-muted hover:text-accent">Account</a><a routerLink="/orders" (click)="closeAccountMenu()" class="small-caps flex min-h-11 items-center px-3 hover:bg-muted hover:text-accent">Orders</a><button type="button" class="small-caps flex min-h-11 w-full items-center px-3 text-left hover:bg-muted hover:text-accent" (click)="signOut()">Sign out</button></div>
           }
         </div>
       } @else {
-        <a
-          routerLink="/login"
-          class="flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
-          aria-label="Sign in"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="8" r="3.25" />
-            <path d="M4.5 19.5c1.6-3.2 4.4-4.8 7.5-4.8s5.9 1.6 7.5 4.8" stroke-linecap="round" />
-          </svg>
-        </a>
+        <a routerLink="/login" class="hidden h-11 w-11 items-center justify-center text-foreground hover:text-accent sm:flex" aria-label="Sign in"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.25" /><path d="M4.5 20c1.6-3.4 4.4-5.1 7.5-5.1s5.9 1.7 7.5 5.1" /></svg></a>
       }
-      <a
-        routerLink="/cart"
-        class="relative flex h-11 w-11 touch-manipulation items-center justify-center rounded-md text-foreground transition-colors duration-150 hover:text-accent"
-        aria-label="View cart"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M6 2 5 6m13-4 1 4M5 6h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 6Z" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        @if (cart.count() > 0) {
-          <span
-            class="small-caps absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] tracking-normal text-accent-foreground"
-          >
-            {{ cart.count() }}
-          </span>
-        }
-      </a>
+      <a routerLink="/cart" class="relative flex h-11 min-w-11 items-center justify-center gap-2 px-2 text-foreground hover:text-accent" aria-label="View cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3 5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 7h14" /></svg><span class="small-caps hidden sm:inline">{{ cart.count() }}</span></a>
     </div>
   </div>
-
   @if (mobileMenuOpen()) {
-    <nav
-      id="mobile-nav"
-      aria-label="Primary"
-      class="flex flex-col gap-1 border-t border-border bg-background px-6 py-4 lg:hidden"
-    >
-      <a
-        routerLink="/products"
-        (click)="closeMobileMenu()"
-        class="small-caps flex min-h-11 items-center text-foreground"
-      >
-        Shop
-      </a>
-      <a
-        routerLink="/products"
-        [queryParams]="{ new: 'true' }"
-        (click)="closeMobileMenu()"
-        class="small-caps flex min-h-11 items-center text-foreground"
-      >
-        New Arrivals
-      </a>
-      <a
-        routerLink="/search"
-        (click)="closeMobileMenu()"
-        class="small-caps flex min-h-11 items-center text-foreground"
-      >
-        Search
-      </a>
-      <a
-        routerLink="/wishlist"
-        (click)="closeMobileMenu()"
-        class="small-caps flex min-h-11 items-center text-foreground"
-      >
-        Wishlist
-      </a>
-      @if (auth.isAuthenticated()) {
-        <a
-          routerLink="/account"
-          (click)="closeMobileMenu()"
-          class="small-caps flex min-h-11 items-center text-foreground"
-        >
-          My Account
-        </a>
-        <a
-          routerLink="/orders"
-          (click)="closeMobileMenu()"
-          class="small-caps flex min-h-11 items-center text-foreground"
-        >
-          My Orders
-        </a>
-      }
+    <nav id="mobile-nav" aria-label="Mobile navigation" class="border-t border-border bg-background px-4 py-3 lg:hidden">
+      <a routerLink="/products" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Collection</a>
+      <a routerLink="/products" [queryParams]="{ new: 'true' }" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">New arrivals</a>
+      <a routerLink="/about" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Our studio</a>
+      <a routerLink="/wishlist" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Wishlist</a>
+      <a routerLink="/contact" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Support</a>
+      <a routerLink="/orders" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Track order</a>
+      @if (auth.isAuthenticated()) { <a routerLink="/account" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Account</a> }
+      @else { <a routerLink="/login" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center">Sign in</a> }
     </nav>
   }
 </header>
