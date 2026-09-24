@@ -9,6 +9,8 @@ import { Product } from '../../models/product.model';
 import { AuthService } from '../../services/auth.service';
 import { CartStore } from '../../services/cart.store';
 import { ProductService } from '../../services/product.service';
+import { ArticleService } from '../../services/article.service';
+import { Article } from '../../models/article.model';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,11 @@ export class Home {
   private readonly cart = inject(CartStore);
   private readonly auth = inject(AuthService);
   private readonly productService = inject(ProductService);
+  private readonly articleService = inject(ArticleService);
+
+  protected readonly articles = toSignal(this.articleService.getAll(3), {
+    initialValue: [] as Article[],
+  });
 
   protected readonly heroImage =
     'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&w=1200&h=1500&q=85';

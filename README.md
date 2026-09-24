@@ -210,3 +210,22 @@ guest-fe-angular/
 - Không commit `.env`, `public/env.js`, token hoặc credential.
 - Không đặt secret trong Angular source hoặc runtime `env.js`.
 - Không dùng dữ liệu tài khoản/thanh toán production cho môi trường local.
+
+## Cập nhật mới & Hướng dẫn khi Pull / Clone (Sprint Update)
+
+Khi clone mới hoặc pull code mới nhất về máy, cần lưu ý các cập nhật sau:
+
+### 1. Cập nhật mã nguồn & Build
+```bash
+npm install
+npm run build
+```
+*(Cấu hình `angular.json` đã được tắt persistent cache LMDB để tương thích ổn định với Node 24).*
+
+### 2. Các tính năng và giao diện mới bổ sung
+- **Phân trang & Tìm kiếm Server-side**: Trang Catalog và Search kết nối API phân trang thực tế, hỗ trợ lọc theo danh mục, mức giá, sắp xếp và ô tìm kiếm với debounce 300ms.
+- **Chuyên mục Tạp chí ("The Studio Journal")**: Trang danh sách `/journal` và chi tiết bài viết `/journal/:slug` hiển thị các bài viết chia sẻ phong cách, kiến thức chất liệu và lookbook thời trang. Đã tích hợp link trên Header menu.
+- **Nâng cấp Trang chủ**: Bổ sung thanh cam kết Store Perks (Freeship, Đổi trả 30 ngày, 100% sợi tự nhiên), lưới 6 danh mục nổi bật (Curated Lines), khối 3 bài viết tạp chí mới nhất và trích dẫn báo chí thời trang.
+- **Tài khoản cá nhân**: Bổ sung xem trước và upload ảnh đại diện (Avatar) tại trang Account.
+- **Hệ thống Toast thông báo**: Toast notification toàn cục mounted tại `app.html` hỗ trợ auto-dismiss sau 4 giây.
+

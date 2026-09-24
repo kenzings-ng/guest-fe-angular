@@ -16,4 +16,10 @@ export class UserService {
   updateMyProfile(input: UpdateProfileInput): Observable<UserProfile> {
     return this.http.patch<UserProfile>(`${this.baseUrl}/me`, input);
   }
+
+  uploadAvatar(file: File): Observable<{ url: string }> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<{ url: string }>(`${environment.apiUrl}/upload/image`, form);
+  }
 }

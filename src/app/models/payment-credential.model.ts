@@ -10,9 +10,11 @@ export type PaymentEnvironment = 'sandbox' | 'production';
 export interface PaymentCredential {
   id: string;
   provider: string;
+  alias?: string;
   environment: PaymentEnvironment;
   paymentMethods: GatewayPaymentMethod[];
   cardBrands: CardBrand[];
   currency: string;
   isActive: boolean;
+  maxPaymentAttempts?: number;
 }
