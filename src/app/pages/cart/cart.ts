@@ -48,7 +48,8 @@ export class Cart {
   protected readonly onlineCredentials = computed(() =>
     this.credentials().filter(
       (credential) =>
-        credential.provider === 'comesh' && credential.paymentMethods.includes('card'),
+        ['comesh', 'glodipay'].includes(credential.provider) &&
+        credential.paymentMethods.includes('card'),
     ),
   );
   protected readonly selectedCredential = computed(() =>

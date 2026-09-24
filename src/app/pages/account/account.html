@@ -1,8 +1,32 @@
 <section class="mx-auto max-w-2xl px-6 py-16 md:py-20">
   <div class="mb-10 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-8">
-    <div>
-      <h1 class="text-4xl text-foreground md:text-5xl">{{ auth.currentUser()?.name }}</h1>
-      <p class="mt-1 text-sm text-muted-foreground">{{ auth.currentUser()?.email }}</p>
+    <div class="flex items-center gap-6">
+      <div class="relative group">
+        <div class="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center text-2xl font-bold text-muted-foreground relative">
+          @if (avatarUrl()) {
+            <img [src]="avatarUrl()" alt="Avatar" class="w-full h-full object-cover" />
+          } @else {
+            {{ getInitials(auth.currentUser()?.name) }}
+          }
+          @if (uploadingAvatar()) {
+            <div class="absolute inset-0 bg-background/50 flex items-center justify-center">
+              <div class="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          }
+        </div>
+        <label
+          class="absolute inset-0 bg-black/50 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10"
+          [class.pointer-events-none]="uploadingAvatar()"
+        >
+          <span class="text-xs font-semibold">Change</span>
+          <input type="file" class="hidden" accept="image/*" (change)="onFileSelect($event)" [disabled]="uploadingAvatar()" />
+        </label>
+      </div>
+
+      <div>
+        <h1 class="text-4xl text-foreground md:text-5xl">{{ auth.currentUser()?.name }}</h1>
+        <p class="mt-1 text-sm text-muted-foreground">{{ auth.currentUser()?.email }}</p>
+      </div>
     </div>
     <div class="flex gap-3">
       <app-button variant="secondary" routerLink="/orders">My Orders</app-button>

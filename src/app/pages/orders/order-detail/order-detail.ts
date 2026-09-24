@@ -95,7 +95,13 @@ export class OrderDetailPage {
     this.paymentError.set(null);
     this.paymentCredentials.available().subscribe({
       next: (credentials) => {
-        this.retryCredentials.set(credentials.filter((item) => item.provider === 'comesh' && item.paymentMethods.includes('card')));
+        this.retryCredentials.set(
+          credentials.filter(
+            (item) =>
+              ['comesh', 'glodipay'].includes(item.provider) &&
+              item.paymentMethods.includes('card'),
+          ),
+        );
         this.retryFormOpen.set(true);
       },
       error: () => this.paymentError.set('Could not load payment providers.'),

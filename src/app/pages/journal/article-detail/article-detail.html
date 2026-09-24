@@ -1,0 +1,65 @@
+<div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+  <div class="mb-8">
+    <a routerLink="/journal" class="inline-flex items-center text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:text-foreground">
+      &larr; Back to Journal
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="py-24 text-center text-muted-foreground">Loading story...</div>
+  } @else if (!article()) {
+    <div class="py-24 text-center text-muted-foreground">
+      <h2 class="font-serif text-2xl">Story Not Found</h2>
+      <p class="mt-2">The article you are looking for does not exist or has been removed.</p>
+    </div>
+  } @else {
+    <article>
+      <!-- Header -->
+      <div class="mb-8 text-center sm:text-left">
+        <span class="inline-block rounded bg-muted px-2.5 py-1 text-xs font-medium tracking-wide">
+          {{ article()!.category }}
+        </span>
+        <h1 class="mt-4 font-serif text-3xl font-medium tracking-tight sm:text-5xl">
+          {{ article()!.title }}
+        </h1>
+        <p class="mt-4 text-lg text-muted-foreground">
+          {{ article()!.summary }}
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3 border-y border-border py-4 text-xs text-muted-foreground">
+          <span class="font-semibold text-foreground">{{ article()!.author }}</span>
+          <span>•</span>
+          <span>{{ article()!.publishedAt | date: 'longDate' }}</span>
+          <span>•</span>
+          <span>{{ article()!.readTime }}</span>
+        </div>
+      </div>
+
+      <!-- Cover Image -->
+      <div class="mb-10 overflow-hidden rounded-xl bg-muted aspect-[16/9]">
+        <img
+          [src]="article()!.coverImage"
+          [alt]="article()!.title"
+          class="h-full w-full object-cover"
+        />
+      </div>
+
+      <!-- Body Content -->
+      <div class="prose prose-neutral max-w-none dark:prose-invert">
+        <div class="whitespace-pre-line text-base leading-relaxed text-foreground/90">
+          {{ article()!.content }}
+        </div>
+      </div>
+
+      <!-- Tags & Footer -->
+      @if (article()!.tags && article()!.tags.length > 0) {
+        <div class="mt-12 flex flex-wrap gap-2 border-t border-border pt-6">
+          @for (tag of article()!.tags; track tag) {
+            <span class="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+              #{{ tag }}
+            </span>
+          }
+        </div>
+      }
+    </article>
+  }
+</div>

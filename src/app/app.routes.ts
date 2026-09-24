@@ -24,6 +24,17 @@ export const routes: Routes = [
     title: 'Maison',
   },
   {
+    path: 'journal',
+    loadComponent: () => import('./pages/journal/journal').then((m) => m.Journal),
+    title: 'The Studio Journal — Maison',
+  },
+  {
+    path: 'journal/:slug',
+    loadComponent: () =>
+      import('./pages/journal/article-detail/article-detail').then((m) => m.ArticleDetail),
+    title: 'Journal — Maison',
+  },
+  {
     path: 'cart',
     loadComponent: () => import('./pages/cart/cart').then((m) => m.Cart),
     title: 'Your Bag — Maison',

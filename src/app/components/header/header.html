@@ -17,6 +17,7 @@
     <nav class="hidden items-center justify-center gap-8 lg:flex" aria-label="Primary navigation">
       <a routerLink="/products" routerLinkActive="text-accent" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">Collection</a>
       <a routerLink="/products" [queryParams]="{ new: 'true' }" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">New arrivals</a>
+      <a routerLink="/journal" routerLinkActive="text-accent" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">Journal</a>
       <a routerLink="/about" routerLinkActive="text-accent" class="small-caps flex min-h-11 items-center border-b border-transparent text-foreground hover:border-accent hover:text-accent">Our studio</a>
     </nav>
     <div class="flex items-center justify-end gap-0.5">
@@ -57,6 +58,7 @@
     >
       <a routerLink="/products" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Collection</a>
       <a routerLink="/products" [queryParams]="{ new: 'true' }" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">New arrivals</a>
+      <a routerLink="/journal" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Journal</a>
       <a routerLink="/about" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Our studio</a>
       <a routerLink="/wishlist" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Wishlist</a>
       <a routerLink="/contact" (click)="closeMobileMenu()" class="small-caps flex min-h-11 items-center border-b border-border">Support</a>

@@ -8,6 +8,30 @@
     }
   </div>
 
+  <div class="mb-8 max-w-lg mx-auto relative">
+    <svg
+      class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" stroke-linecap="round" />
+    </svg>
+    <label for="catalog-search" class="sr-only">Search products</label>
+    <input
+      id="catalog-search"
+      type="search"
+      placeholder="Search catalog..."
+      class="field-input pl-11"
+      (input)="onSearchInput($any($event.target).value)"
+    />
+  </div>
+
   <div
     class="mb-10 flex flex-col gap-6 border-y border-border py-5 md:flex-row md:items-center md:justify-between"
   >
@@ -17,7 +41,7 @@
           type="button"
           class="small-caps min-h-11 transition-colors duration-150"
           [class]="selectedCategory() === category ? 'text-accent' : 'text-muted-foreground hover:text-foreground'"
-          (click)="selectedCategory.set(category)"
+          (click)="onCategoryChange(category)"
         >
           {{ category }}
         </button>
@@ -39,13 +63,41 @@
     </div>
   </div>
 
-  @if (visibleProducts().length === 0) {
+  @if (loading()) {
+    <div class="py-24 flex justify-center">
+      <div class="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  } @else if (items().length === 0) {
     <p class="py-24 text-center text-muted-foreground">No products match these filters.</p>
   } @else {
     <div class="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
-      @for (product of visibleProducts(); track product.id) {
+      @for (product of items(); track product.id) {
         <app-product-card [product]="product" (quickAdd)="onQuickAdd($event)" />
       }
+    </div>
+
+    <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
+      <p class="text-sm text-muted-foreground">
+        Showing {{ (page() - 1) * 12 + 1 }}-{{ (page() * 12) > total() ? total() : (page() * 12) }} of {{ total() }} products
+      </p>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="btn-outline h-10 px-4 text-sm"
+          [disabled]="page() === 1"
+          (click)="prevPage()"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="btn-outline h-10 px-4 text-sm"
+          [disabled]="page() === totalPages()"
+          (click)="nextPage()"
+        >
+          Next
+        </button>
+      </div>
     </div>
   }
 </section>

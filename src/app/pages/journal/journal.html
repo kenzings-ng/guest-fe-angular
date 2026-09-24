@@ -1,0 +1,52 @@
+<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+  <!-- Header -->
+  <div class="mb-12 border-b border-border pb-8 text-center sm:text-left">
+    <p class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">The Studio Journal</p>
+    <h1 class="mt-2 font-serif text-4xl tracking-tight sm:text-5xl">Stories, Care & Styling</h1>
+    <p class="mt-4 max-w-2xl text-base text-muted-foreground">
+      Essays on material integrity, architectural proportions, and considered daily rituals from our design team.
+    </p>
+  </div>
+
+  <!-- Articles Grid -->
+  @if (articles().length === 0) {
+    <div class="py-16 text-center text-muted-foreground">
+      <p>No stories published yet. Please check back soon.</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+      @for (art of articles(); track art.slug) {
+        <article class="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition hover:shadow-lg">
+          <a [routerLink]="['/journal', art.slug]" class="relative aspect-[16/10] overflow-hidden bg-muted">
+            <img
+              [src]="art.coverImage"
+              [alt]="art.title"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <span class="absolute left-3 top-3 rounded bg-background/90 px-2 py-1 text-[11px] font-medium backdrop-blur-sm">
+              {{ art.category }}
+            </span>
+          </a>
+          <div class="flex flex-1 flex-col p-6">
+            <div class="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
+              <span>{{ art.publishedAt | date: 'mediumDate' }}</span>
+              <span>•</span>
+              <span>{{ art.readTime }}</span>
+            </div>
+            <h2 class="font-serif text-xl font-medium tracking-tight group-hover:text-accent">
+              <a [routerLink]="['/journal', art.slug]">{{ art.title }}</a>
+            </h2>
+            <p class="mt-3 line-clamp-3 flex-1 text-sm text-muted-foreground">
+              {{ art.summary }}
+            </p>
+            <div class="mt-4 flex items-center justify-between border-t border-border/60 pt-4 text-xs font-medium">
+              <span class="text-muted-foreground">{{ art.author }}</span>
+              <a [routerLink]="['/journal', art.slug]" class="text-foreground transition group-hover:underline">Read Story &rarr;</a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

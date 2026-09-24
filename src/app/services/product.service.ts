@@ -44,15 +44,33 @@ function mapProduct(api: ApiProduct): Product {
   };
 }
 
+export interface PaginatedProducts {
+  items: Product[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface ProductQuery {
+  search?: string;
+  categoryId?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sort?: string;
+  page?: number;
+  limit?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/products`;
 
   getAll(): Observable<Product[]> {
-    return this.http.get<ApiProduct[]>(this.baseUrl).pipe(
-      map((list) => list.map(mapProduct)),
-      catchError(() => of([] as Product[])),
+    return this.http.get<any>(this.baseUrl, { params: { limit: '100' } }).pipe(
+      map((res) => (Array.isArray(res) ? res : res.items ?? []).map(mapProduct)),
+      catchError(() => of([])),
     );
   }
 
@@ -60,6 +78,26 @@ export class ProductService {
     return this.http.get<ApiProduct>(`${this.baseUrl}/${slug}`).pipe(
       map(mapProduct),
       catchError(() => of(undefined)),
+    );
+  }
+
+  search(query: ProductQuery): Observable<PaginatedProducts> {
+    const params: Record<string, string> = {};
+    if (query.search) params['search'] = query.search;
+    if (query.sort) params['sort'] = query.sort;
+    if (query.page) params['page'] = String(query.page);
+    if (query.limit) params['limit'] = String(query.limit);
+    if (query.minPrice !== undefined) params['minPrice'] = String(query.minPrice);
+    if (query.maxPrice !== undefined) params['maxPrice'] = String(query.maxPrice);
+    
+    return this.http.get<any>(this.baseUrl, { params }).pipe(
+      map((res) => ({
+        items: (res.items ?? []).map(mapProduct),
+        total: res.total ?? 0,
+        page: res.page ?? 1,
+        limit: res.limit ?? 12,
+        totalPages: res.totalPages ?? 1,
+      })),
     );
   }
 }

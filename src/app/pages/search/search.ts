@@ -1,10 +1,10 @@
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, computed, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ProductCard } from '../../components/product-card/product-card';
 import { Product } from '../../models/product.model';
 import { CartStore } from '../../services/cart.store';
-import { ProductService } from '../../services/product.service';
+import { ProductService, ProductQuery } from '../../services/product.service';
+import { Subject, debounceTime, switchMap, distinctUntilChanged, of } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -16,23 +16,64 @@ export class Search {
   private readonly auth = inject(AuthService);
   private readonly productService = inject(ProductService);
 
-  private readonly products = toSignal(this.productService.getAll(), {
-    initialValue: [] as Product[],
-  });
-
   protected readonly query = signal('');
+  protected readonly results = signal<Product[]>([]);
+  protected readonly total = signal(0);
+  protected readonly page = signal(1);
+  protected readonly totalPages = signal(1);
+  protected readonly loading = signal(false);
 
-  protected readonly results = computed(() => {
-    const term = this.query().trim().toLowerCase();
-    if (!term) return [];
-    return this.products().filter(
-      (product) =>
-        product.name.toLowerCase().includes(term) || product.category.toLowerCase().includes(term),
-    );
-  });
+  private searchChange$ = new Subject<void>();
+  private searchInput$ = new Subject<string>();
+
+  constructor() {
+    this.searchChange$.pipe(
+      switchMap(() => {
+        if (!this.query().trim()) {
+          return of({ items: [], total: 0, page: 1, limit: 12, totalPages: 1 });
+        }
+        this.loading.set(true);
+        const queryParams: ProductQuery = {
+          search: this.query().trim(),
+          page: this.page(),
+          limit: 12
+        };
+        return this.productService.search(queryParams);
+      })
+    ).subscribe(result => {
+      this.results.set(result.items);
+      this.total.set(result.total);
+      this.page.set(result.page);
+      this.totalPages.set(result.totalPages);
+      this.loading.set(false);
+    });
+
+    this.searchInput$.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(val => {
+      this.query.set(val);
+      this.page.set(1);
+      this.searchChange$.next();
+    });
+  }
 
   protected onQueryInput(value: string): void {
-    this.query.set(value);
+    this.searchInput$.next(value);
+  }
+
+  protected prevPage(): void {
+    if (this.page() > 1) {
+      this.page.update(p => p - 1);
+      this.searchChange$.next();
+    }
+  }
+
+  protected nextPage(): void {
+    if (this.page() < this.totalPages()) {
+      this.page.update(p => p + 1);
+      this.searchChange$.next();
+    }
   }
 
   protected onQuickAdd(product: Product): void {

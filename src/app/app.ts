@@ -6,13 +6,14 @@ import { CartDrawer } from './components/cart-drawer/cart-drawer';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { EmailVerificationBanner } from './components/email-verification-banner/email-verification-banner';
+import { ToastHost } from './components/toast/toast-host';
 import { AuthService } from './services/auth.service';
 
 const NO_FOOTER_PATHS = new Set(['/login', '/register']);
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, CartDrawer, EmailVerificationBanner],
+  imports: [RouterOutlet, Header, Footer, CartDrawer, EmailVerificationBanner, ToastHost],
   templateUrl: './app.html',
 })
 export class App {
